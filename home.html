@@ -1,0 +1,2656 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>Home</title>
+
+    <!-- Normalize V8.0.1 -->
+    <link rel="stylesheet" href="./css/normalize.css">
+
+    <!-- Bootstrap V4.3 -->
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+
+    <!-- Bootstrap Material Design V4.0 -->
+    <link rel="stylesheet" href="./css/bootstrap-material-design.min.css">
+
+    <!-- Font Awesome V5.9.0 -->
+    <link rel="stylesheet" href="./css/all.css">
+
+    <!-- Sweet Alerts V8.13.0 CSS file -->
+    <link rel="stylesheet" href="./css/sweetalert2.min.css">
+
+    <!-- Sweet Alert V8.13.0 JS file-->
+    <script src="./js/sweetalert2.min.js"></script>
+
+    <!-- jQuery Custom Content Scroller V3.1.5 -->
+    <link rel="stylesheet" href="./css/jquery.mCustomScrollbar.css">
+
+    <!-- General Styles -->
+    <link rel="stylesheet" href="./css/style.css">
+
+    <style>
+        .custom-background-table {
+            width: 100%;
+            height: 200px;
+            /* Ajusta la altura según tus necesidades */
+            background-image: url('assets/img/sotano1_.png');
+            /* Ruta de la imagen de fondo */
+            background-size: cover;
+            /* Ajusta el tamaño de la imagen para cubrir la tabla */
+            background-repeat: no-repeat;
+            /* Evita la repetición de la imagen */
+        }
+
+        .custom-background-table tr,
+        .custom-background-table td {
+            padding: 0;
+            margin: 0;
+            border: 0;
+            height: 100%;
+        }
+
+        #sotano2box {
+            display: none;
+            /* Oculta sotano2box por defecto */
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+        .user-avatar img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+
+        /* Estilo para ocultar la subfila por defecto */
+        .subfila {
+            display: none;
+            text-align: center;
+        }
+
+        /* Estilo para resaltar texto en verde */
+        .activo {
+            color: white;
+            background-color: rgb(28, 85, 17);
+            border-radius: 10px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .vencido {
+            color: white;
+            background-color: rgb(108, 12, 12);
+            border-radius: 10px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .indefinido {
+            color: white;
+            background-color: rgb(114, 109, 10);
+            border-radius: 10px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Estilos para la ventana flotante */
+        .ventana-flotante {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #06030D;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+            z-index: 9999;
+        }
+
+        .ventana-flotante-agregar {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #253556;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+            z-index: 9999;
+        }
+
+        .id {
+            display: none;
+        }
+
+        #divMembrasiaAsistencia {
+            display: none;
+        }
+
+        .table-busqueda {
+            background-color: rgb(92, 22, 32);
+            /* Cambia #ff0000 por el color deseado */
+            border-radius: 10px;
+            /* Aplica bordes redondos */
+        }
+
+        .custom-table-responsive {
+            max-height: 100px;
+            /* Ajusta la altura según tus necesidades */
+        }
+
+        .custom-input {
+            height: 30px;
+            width: 40%;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: flex-end;
+            justify-content: flex-start;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            padding: 5px;
+            height: 40px;
+            /* Ajusta la altura deseada */
+        }
+
+        .search-bar input {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 5px;
+            height: 30px;
+            margin-top: auto;
+            /* Empujar el input hacia abajo */
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 40px;
+            height: 25px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: .4s;
+            transition: .4s;
+            border-radius: 17px;
+            /* Ajusta el valor según tus preferencias */
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+            border-radius: 50%;
+            /* Ajusta el valor según tus preferencias */
+        }
+
+        input:checked+.slider {
+            background-color: #D51944;
+        }
+
+        input:focus+.slider {
+            box-shadow: 0 0 1px #D51944;
+        }
+
+        input:checked+.slider:before {
+            -webkit-transform: translateX(26px);
+            -ms-transform: translateX(26px);
+            transform: translateX(16px);
+        }
+
+        .slider.round {
+            border-radius: 34px;
+        }
+
+        .slider.round:before {
+            border-radius: 50%;
+        }
+
+        .estilo-personalizado {
+            background-color: #ffffff;
+            color: #000000;
+        }
+
+        .search-bar-personalizado {
+            display: flex;
+            align-items: flex-end;
+            justify-content: flex-start;
+            border: 1px solid #000000;
+            border-radius: 20px;
+            padding: 5px;
+            height: 40px;
+            /* Ajusta la altura deseada */
+        }
+
+        .letras-negras {
+            color: #000000;
+        }
+
+        .letras-blancas {
+            color: #ffffff;
+        }
+
+        /*  Page content */
+        .navbar-info-pers {
+            height: 50px;
+            border-bottom: 1px solid rgba(250, 30, 78, .3);
+            text-align: right;
+            padding-right: 10px;
+        }
+
+        .navbar-info-pers a {
+            color: var(--form-color);
+            height: 50px;
+            min-width: 40px;
+            text-align: center;
+            line-height: 50px;
+            display: inline-block;
+            transition: all .2s ease-out;
+            user-select: none;
+        }
+
+        .navbar-info-pers a:hover {
+            color: #D51944;
+            background-image: radial-gradient(circle, rgba(250, 30, 78, .1), transparent 80%);
+        }
+
+        .navbar-info-pers a:active,
+        .navbar-info-pers a:focus {
+            outline: none;
+        }
+
+        /*----------  Page nav tabs  ----------*/
+        .page-nav-tabs-pers {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+
+        .page-nav-tabs-pers li,
+        .page-nav-tabs-pers li a {
+            height: 40px;
+            line-height: 40px;
+        }
+
+        .page-nav-tabs-pers li {
+            margin: 5px;
+        }
+
+        .page-nav-tabs-pers li a {
+            color: #004f45;
+            font-size: 20px;
+            min-width: 200px;
+            width: auto;
+            display: block;
+            text-align: center;
+            user-select: none;
+            transition: all .2s ease-in-out;
+        }
+
+        .page-nav-tabs-pers li a.active {
+            color: #D51944;
+            cursor: none;
+            pointer-events: none;
+        }
+
+        .page-nav-tabs-pers li a:hover {
+            text-decoration: none;
+            color: #D51944;
+            background-image: linear-gradient(to right, transparent, rgba(250, 30, 78, .1) 50%, transparent);
+        }
+
+        .table-dark-pers,
+        .table {
+            background-color: transparent;
+        }
+
+        .table-dark-pers {
+            border: 1px solid #D51944;
+        }
+
+        .table-dark-pers thead tr {
+            background-color: #D51944;
+        }
+
+        .table-dark-pers td,
+        .table-dark-pers thead th,
+        .table-dark-pers th {
+            border: none;
+        }
+
+        .table-dark-pers tr:hover {
+            color: #D51944;
+            background-image: linear-gradient(to right, transparent, rgba(97, 12, 54, 0.1) 85%, transparent);
+        }
+
+        .inp-form,
+        .inp-form:active,
+        .inp-form:focus {
+            color: #000000;
+        }
+
+        .inp-form-pers,
+        .inp-form-pers:active,
+        .inp-form-pers:focus {
+            color: #000000;
+        }
+
+        /* Establecer dimensiones fijas para la tabla */
+        table {
+            width: 205px;
+            /* Ancho fijo */
+            height: 220px;
+            /* Altura fija */
+            /*border: 1px solid #ddd; /* Borde para visualización */
+            border-collapse: collapse;
+            /* Colapso del borde */
+        }
+
+        .controlador-banner {
+            background-color: #253556;
+            color: #ffffff;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.5em;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- Main container -->
+    <main class="full-box main-container">
+        <!-- Nav lateral -->
+        <section class="full-box nav-lateral">
+            <div class="full-box nav-lateral-bg show-nav-lateral"></div>
+            <div class="full-box nav-lateral-content">
+                <figure class="full-box nav-lateral-avatar">
+                    <i class="far fa-times-circle show-nav-lateral"></i>
+                    <img src="./assets/avatar/Avatar.png" class="img-fluid" alt="Avatar">
+                    <figcaption class="roboto-medium text-center" id="userSession">
+                        - <br><small class="roboto-condensed-light">-</small>
+                    </figcaption>
+                </figure>
+                <div class="full-box nav-lateral-bar"></div>
+                <nav class="full-box nav-lateral-menu">
+                    <ul>
+                        <li>
+                            <a href="home.html"><i class="fab fa-dashcube fa-fw"></i> &nbsp; Dashboard</a>
+                        </li>
+
+                        <li>
+                            <a href="emple-list.html"><i class="fas fa-users fa-fw"></i> &nbsp; Lista de Empleados</a>
+                        </li>
+
+                        <li>
+                            <a href="cars-list.html"><i class="fas fa-car fa-fw"></i> &nbsp; Lista de Vehiculos</a>
+                        </li>
+
+                        <li>
+                            <a href="admin-list.html"><i class="fas fa-user-secret fa-fw"></i> &nbsp;
+                                Administradores</a>
+                        </li>
+
+                        <li>
+                            <a href="ticket-list.html"><i class="fas fa-ticket-alt fa-fw"></i> &nbsp; Tickets</a>
+                        </li>
+
+                        <li>
+                            <a href="tarifa-list.html"><i class="fas fa-comment-dollar fa-fw"></i> &nbsp; Tarifas</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </section>
+
+        <!-- Page content -->
+        <section class="full-box page-content">
+            <nav class="full-box navbar-info">
+                <a href="#" class="float-left show-nav-lateral">
+                    <i class="fas fa-exchange-alt"></i>
+                </a>
+                <!-- <a href="user-update.html">
+                    <i class="fas fa-user-cog"></i>
+                </a> -->
+                <a href="#" class="btn-exit-system">
+                    <i class="fas fa-power-off"></i>
+                </a>
+            </nav>
+
+            <!-- Page header -->
+            <div class="full-box page-header">
+                <h3 class="text-left">
+                    <i class="fab fa-dashcube fa-fw"></i> &nbsp; DASHBOARD
+                </h3>
+                <p class="text-justify">
+                    ¡Bienvenido a nuestra sección de Monitoreo de Parqueadero! En esta página, te ofrecemos una
+                    experiencia visual
+                    única para mantenerte al tanto de la actividad dentro de nuestro parqueadero. Aquí, podrás observar
+                    gráficamente la disponibilidad de espacios, identificando los lugares libres y ocupados en tiempo
+                    real.
+                    Además, te proporcionamos información detallada sobre el tiempo que han estado ocupados los
+                    espacios, lo
+                    que te permitirá gestionar de manera efectiva la disponibilidad. Estamos comprometidos en brindarte
+                    una
+                    visión clara y precisa de nuestro parqueadero para hacer tu experiencia lo más conveniente y
+                    eficiente posible.
+                </p>
+            </div>
+
+            <!-- Controlador Banner -->
+            <div class="controlador-banner">
+                CONTROLADOR
+            </div>
+
+            <!--CONTENT-->
+            <div class="container-fluid">
+                <div class="container-fluid form-neon">
+                    <form action="" autocomplete="off">
+                        <fieldset>
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group">
+
+                                            <!-- Botón para alternar la visibilidad -->
+                                            <button type="button" class="btn btn-info" id="toggleButton"><i
+                                                    class="fas fa-arrow-right"></i> &nbsp; Cambiar Sotano</button>
+
+                                            <div class="container-fluid" id="sotano1box">
+                                                <div class="row">
+                                                    <div class="col-12 col-md-8 col-lg-6">
+                                                        <table class="" id="sotano1"
+                                                            style="background-image: url('assets/img/sotano1.png'); background-size: cover; border-collapse: separate; border-spacing: 2px; border: 2px solid #253556;">
+                                                            <tr style="height: 100px;">
+                                                                <td>
+                                                                    <table
+                                                                        style="border-collapse: separate; border-spacing: 2px;">
+                                                                        <tr style="height: 106px;">
+                                                                            <td id="1">
+                                                                                <button type="button"
+                                                                                    class="btn btn-md" id="btn1"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#ModalInfo"
+                                                                                    style="background: url('assets/img/auto2.png') no-repeat center center; background-size: cover; border: none; width: 200px; height: 100px; display: none;"></button>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr style="height: 106px;">
+                                                                            <td id="2"
+                                                                                style="color: transparent;">
+                                                                                <button type="button"
+                                                                                    class="btn btn-md" id="btn2"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#ModalInfo"
+                                                                                    style="background: url('assets/img/auto2.png') no-repeat center center; background-size: cover; border: none; width: 200px; height: 100px; display: none;"></button>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr style="height: 106px;">
+                                                                            <td id="3"
+                                                                                style="color: transparent;">
+                                                                                <button type="button"
+                                                                                    class="btn btn-md" id="btn3"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#ModalInfo"
+                                                                                    style="background: url('assets/img/auto2.png') no-repeat center center; background-size: cover; border: none; width: 200px; height: 100px; display: none;"></button>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr style="height: 106px;">
+                                                                            <td id="4"
+                                                                                style="color: transparent;">
+                                                                                <button type="button"
+                                                                                    class="btn btn-md" id="btn4"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#ModalInfo"
+                                                                                    style="background: url('assets/img/auto2.png') no-repeat center center; background-size: cover; border: none; width: 200px; height: 100px; display: none;"></button>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr style="height: 106px;">
+                                                                            <td id="5"
+                                                                                style="color: transparent;">
+                                                                                <button type="button"
+                                                                                    class="btn btn-md" id="btn5"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#ModalInfo"
+                                                                                    style="background: url('assets/img/auto2.png') no-repeat center center; background-size: cover; border: none; width: 200px; height: 100px; display: none;"></button>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr style="height: 106px;">
+                                                                            <td id="6"
+                                                                                style="color: transparent;">
+                                                                                <button type="button"
+                                                                                    class="btn btn-md" id="btn6"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#ModalInfo"
+                                                                                    style="background: url('assets/img/auto2.png') no-repeat center center; background-size: cover; border: none; width: 200px; height: 100px; display: none;"></button>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </td>
+                                                                <td>
+                                                                <td>
+                                                                    <table>
+                                                                        <tr style="height: 65px;">
+                                                                            <td id="1000">
+                                                                                <button type="button"
+                                                                                    class="btn btn-md" id="btn1000"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#ModalInfo"
+                                                                                    style="background: url('assets/img/moto1.png') no-repeat center center; background-size: cover; border: none; width: 100px; height: 45px; display: none;"></button>
+                                                                            </td>
+                                                                            <td id="11000">
+                                                                                <button type="button"
+                                                                                    class="btn btn-md" id="btn11000"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#ModalInfo"
+                                                                                    style="background: url('assets/img/moto1.png') no-repeat center center; background-size: cover; border: none; width: 100px; height: 45px; display: none;"></button>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr style="height: 65px;">
+                                                                            <td id="2000"
+                                                                                style="color: transparent;">
+                                                                                <button type="button"
+                                                                                    class="btn btn-md" id="btn2000"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#ModalInfo"
+                                                                                    style="background: url('assets/img/moto1.png') no-repeat center center; background-size: cover; border: none; width: 100px; height: 45px; display: none;"></button>
+                                                                            </td>
+                                                                            <td id="12000"
+                                                                                style="color: transparent;">
+                                                                                <button type="button"
+                                                                                    class="btn btn-md" id="btn12000"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#ModalInfo"
+                                                                                    style="background: url('assets/img/moto1.png') no-repeat center center; background-size: cover; border: none; width: 100px; height: 45px; display: none;"></button>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr style="height: 65px;">
+                                                                            <td id="3000"
+                                                                                style="color: transparent;">
+                                                                                <button type="button"
+                                                                                    class="btn btn-md" id="btn3000"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#ModalInfo"
+                                                                                    style="background: url('assets/img/moto1.png') no-repeat center center; background-size: cover; border: none; width: 100px; height: 45px; display: none;"></button>
+                                                                            </td>
+                                                                            <td id="13000"
+                                                                                style="color: transparent;">
+                                                                                <button type="button"
+                                                                                    class="btn btn-md" id="btn13000"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#ModalInfo"
+                                                                                    style="background: url('assets/img/moto1.png') no-repeat center center; background-size: cover; border: none; width: 100px; height: 45px; display: none;"></button>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr style="height: 65px;">
+                                                                            <td id="4000"
+                                                                                style="color: transparent;">
+                                                                                <button type="button"
+                                                                                    class="btn btn-md" id="btn4000"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#ModalInfo"
+                                                                                    style="background: url('assets/img/moto1.png') no-repeat center center; background-size: cover; border: none; width: 100px; height: 45px; display: none;"></button>
+                                                                            </td>
+                                                                            <td id="14000"
+                                                                                style="color: transparent;">
+                                                                                <button type="button"
+                                                                                    class="btn btn-md" id="btn14000"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#ModalInfo"
+                                                                                    style="background: url('assets/img/moto1.png') no-repeat center center; background-size: cover; border: none; width: 100px; height: 45px; display: none;"></button>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr style="height: 65px;">
+                                                                            <td id="5000"
+                                                                                style="color: transparent;">
+                                                                                <button type="button"
+                                                                                    class="btn btn-md" id="btn5000"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#ModalInfo"
+                                                                                    style="background: url('assets/img/moto1.png') no-repeat center center; background-size: cover; border: none; width: 100px; height: 45px; display: none;"></button>
+                                                                            </td>
+                                                                            <td id="15000"
+                                                                                style="color: transparent;">
+                                                                                <button type="button"
+                                                                                    class="btn btn-md" id="btn15000"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#ModalInfo"
+                                                                                    style="background: url('assets/img/moto1.png') no-repeat center center; background-size: cover; border: none; width: 100px; height: 45px; display: none;"></button>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr style="height: 65px;">
+                                                                            <td id="6000"
+                                                                                style="color: transparent;">
+                                                                                <button type="button"
+                                                                                    class="btn btn-md" id="btn6000"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#ModalInfo"
+                                                                                    style="background: url('assets/img/moto1.png') no-repeat center center; background-size: cover; border: none; width: 100px; height: 45px; display: none;"></button>
+                                                                            </td>
+                                                                            <td id="16000"
+                                                                                style="color: transparent;">
+                                                                                <button type="button"
+                                                                                    class="btn btn-md" id="btn16000"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#ModalInfo"
+                                                                                    style="background: url('assets/img/moto1.png') no-repeat center center; background-size: cover; border: none; width: 100px; height: 45px; display: none;"></button>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr style="height: 65px;">
+                                                                            <td id="7000"
+                                                                                style="color: transparent;">
+                                                                                <button type="button"
+                                                                                    class="btn btn-md" id="btn7000"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#ModalInfo"
+                                                                                    style="background: url('assets/img/moto1.png') no-repeat center center; background-size: cover; border: none; width: 100px; height: 45px; display: none;"></button>
+                                                                            </td>
+                                                                            <td id="17000"
+                                                                                style="color: transparent;">
+                                                                                <button type="button"
+                                                                                    class="btn btn-md" id="btn17000"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#ModalInfo"
+                                                                                    style="background: url('assets/img/moto1.png') no-repeat center center; background-size: cover; border: none; width: 100px; height: 45px; display: none;"></button>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr style="height: 65px;">
+                                                                            <td id="8000"
+                                                                                style="color: transparent;">
+                                                                                <button type="button"
+                                                                                    class="btn btn-md" id="btn8000"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#ModalInfo"
+                                                                                    style="background: url('assets/img/moto1.png') no-repeat center center; background-size: cover; border: none; width: 100px; height: 45px; display: none;"></button>
+                                                                            </td>
+                                                                            <td id="18000"
+                                                                                style="color: transparent;">
+                                                                                <button type="button"
+                                                                                    class="btn btn-md" id="btn18000"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#ModalInfo"
+                                                                                    style="background: url('assets/img/moto1.png') no-repeat center center; background-size: cover; border: none; width: 100px; height: 45px; display: none;"></button>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr style="height: 65px;">
+                                                                            <td id="9000"
+                                                                                style="color: transparent;">
+                                                                                <button type="button"
+                                                                                    class="btn btn-md" id="btn9000"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#ModalInfo"
+                                                                                    style="background: url('assets/img/moto1.png') no-repeat center center; background-size: cover; border: none; width: 100px; height: 45px; display: none;"></button>
+                                                                            </td>
+                                                                            <td id="19000"
+                                                                                style="color: transparent;">
+                                                                                <button type="button"
+                                                                                    class="btn btn-md" id="btn19000"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#ModalInfo"
+                                                                                    style="background: url('assets/img/moto1.png') no-repeat center center; background-size: cover; border: none; width: 100px; height: 45px; display: none;"></button>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr style="height: 65px;">
+                                                                            <td id="10000"
+                                                                                style="color: transparent;">
+                                                                                <button type="button"
+                                                                                    class="btn btn-md" id="btn10000"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#ModalInfo"
+                                                                                    style="background: url('assets/img/moto1.png') no-repeat center center; background-size: cover; border: none; width: 100px; height: 45px; display: none;"></button>
+                                                                            </td>
+                                                                            <td id="20000"
+                                                                                style="color: transparent;">
+                                                                                <button type="button"
+                                                                                    class="btn btn-md" id="btn20000"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#ModalInfo"
+                                                                                    style="background: url('assets/img/moto1.png') no-repeat center center; background-size: cover; border: none; width: 100px; height: 45px; display: none;"></button>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </td>
+                                                            </tr>
+                                                            <tr style="height: 106px;">
+                                                                <td id="7" style="color: transparent;">
+                                                                    <button type="button" class="btn btn-md"
+                                                                        id="btn7" data-toggle="modal"
+                                                                        data-target="#ModalInfo"
+                                                                        style="background: url('assets/img/auto2.png') no-repeat center center; background-size: cover; border: none; width: 200px; height: 100px; display: none;"></button>
+                                                                </td>
+                                                                <td style="color: transparent;">lwwwwwwwwwwwwwwwwwww
+                                                                </td>
+                                                                <td id="10" style="color: transparent;">
+                                                                    <button type="button" class="btn btn-md"
+                                                                        id="btn10" data-toggle="modal"
+                                                                        data-target="#ModalInfo"
+                                                                        style="background: url('assets/img/auto2.png') no-repeat center center; background-size: cover; border: none; width: 200px; height: 100px; display: none;"></button>
+                                                                </td>
+                                                            </tr>
+                                                            <tr style="height: 106px;">
+                                                                <td id="8" style="color: transparent;">
+                                                                    <button type="button" class="btn btn-md"
+                                                                        id="btn8" data-toggle="modal"
+                                                                        data-target="#ModalInfo"
+                                                                        style="background: url('assets/img/auto2.png') no-repeat center center; background-size: cover; border: none; width: 200px; height: 100px; display: none;"></button>
+                                                                </td>
+                                                                <td style="color: transparent;">lwwwwwwwwwwwwwwwwwww
+                                                                </td>
+                                                                <td id="9" style="color: transparent;">
+                                                                    <button type="button" class="btn btn-md"
+                                                                        id="btn9" data-toggle="modal"
+                                                                        data-target="#ModalInfo"
+                                                                        style="background: url('assets/img/auto2.png') no-repeat center center; background-size: cover; border: none; width: 200px; height: 100px; display: none;"></button>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <br><br>
+                                            <div class="container-fluid" id="sotano2box">
+                                                <div class="row">
+                                                    <div class="col-12 col-md-8 col-lg-6">
+                                                        <table class="" id="sotano2"
+                                                            style="background-image: url('assets/img/sotano2.png'); background-size: cover; border: 2px solid #253556;">
+                                                            <tr style="height: 100px;">
+                                                                <td>
+                                                                    <table>
+                                                                        <tr style="height: 75px;">
+                                                                            <td id="11"
+                                                                                style="color: transparent;">
+                                                                                <button type="button"
+                                                                                    class="btn btn-md" id="btn11"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#ModalInfo"
+                                                                                    style="background: url('assets/img/auto2.png') no-repeat center center; background-size: cover; border: none; width: 200px; height: 70px; display: none;"></button>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr style="height: 70px;">
+                                                                            <td id="12"
+                                                                                style="color: transparent;">
+                                                                                <button type="button"
+                                                                                    class="btn btn-md" id="btn12"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#ModalInfo"
+                                                                                    style="background: url('assets/img/auto2.png') no-repeat center center; background-size: cover; border: none; width: 200px; height: 70px; display: none;"></button>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr style="height: 70px;">
+                                                                            <td id="13"
+                                                                                style="color: transparent;">
+                                                                                <button type="button"
+                                                                                    class="btn btn-md" id="btn13"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#ModalInfo"
+                                                                                    style="background: url('assets/img/auto2.png') no-repeat center center; background-size: cover; border: none; width: 200px; height: 70px; display: none;"></button>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr style="height: 70px;">
+                                                                            <td id="14"
+                                                                                style="color: transparent;">
+                                                                                <button type="button"
+                                                                                    class="btn btn-md" id="btn14"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#ModalInfo"
+                                                                                    style="background: url('assets/img/auto2.png') no-repeat center center; background-size: cover; border: none; width: 200px; height: 70px; display: none;"></button>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr style="height: 70px;">
+                                                                            <td id="15"
+                                                                                style="color: transparent;">
+                                                                                <button type="button"
+                                                                                    class="btn btn-md" id="btn15"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#ModalInfo"
+                                                                                    style="background: url('assets/img/auto2.png') no-repeat center center; background-size: cover; border: none; width: 200px; height: 70px; display: none;"></button>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr style="height: 70px;">
+                                                                            <td id="16">
+                                                                                <button type="button"
+                                                                                    class="btn btn-md" id="btn16"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#ModalInfo"
+                                                                                    style="background: url('assets/img/auto2.png') no-repeat center center; background-size: cover; border: none; width: 200px; height: 70px; display: none;"></button>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </td>
+                                                                <td style="color: transparent;">
+                                                                    lwwwwwwwwwwwwwwwwwwwwwwwwww</td>
+                                                                <td>
+                                                                    <table>
+                                                                        <tr style="height: 36px;">
+                                                                            <td id="21000">
+                                                                                <button type="button"
+                                                                                    class="btn btn-md" id="btn21000"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#ModalInfo"
+                                                                                    style="background: url('assets/img/moto1.png') no-repeat center center; background-size: cover; border: none; width: 80px; height: 30px; display: none;"></button>
+                                                                            </td>
+                                                                            <td id="33000">
+                                                                                <button type="button"
+                                                                                    class="btn btn-md" id="btn33000"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#ModalInfo"
+                                                                                    style="background: url('assets/img/moto1.png') no-repeat center center; background-size: cover; border: none; width: 80px; height: 30px; display: none;"></button>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr style="height: 36px;">
+                                                                            <td id="22000"
+                                                                                style="color: transparent;">
+                                                                                <button type="button"
+                                                                                    class="btn btn-md" id="btn22000"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#ModalInfo"
+                                                                                    style="background: url('assets/img/moto1.png') no-repeat center center; background-size: cover; border: none; width: 80px; height: 30px; display: none;"></button>
+                                                                            </td>
+                                                                            <td id="34000"
+                                                                                style="color: transparent;">
+                                                                                <button type="button"
+                                                                                    class="btn btn-md" id="btn34000"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#ModalInfo"
+                                                                                    style="background: url('assets/img/moto1.png') no-repeat center center; background-size: cover; border: none; width: 80px; height: 30px; display: none;"></button>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr style="height: 36px;">
+                                                                            <td id="23000"
+                                                                                style="color: transparent;">
+                                                                                <button type="button"
+                                                                                    class="btn btn-md" id="btn23000"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#ModalInfo"
+                                                                                    style="background: url('assets/img/moto1.png') no-repeat center center; background-size: cover; border: none; width: 80px; height: 30px; display: none;"></button>
+                                                                            </td>
+                                                                            <td id="35000"
+                                                                                style="color: transparent;">
+                                                                                <button type="button"
+                                                                                    class="btn btn-md" id="btn35000"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#ModalInfo"
+                                                                                    style="background: url('assets/img/moto1.png') no-repeat center center; background-size: cover; border: none; width: 80px; height: 30px; display: none;"></button>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr style="height: 36px;">
+                                                                            <td id="24000"
+                                                                                style="color: transparent;">
+                                                                                <button type="button"
+                                                                                    class="btn btn-md" id="btn24000"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#ModalInfo"
+                                                                                    style="background: url('assets/img/moto1.png') no-repeat center center; background-size: cover; border: none; width: 80px; height: 30px; display: none;"></button>
+                                                                            </td>
+                                                                            <td id="36000"
+                                                                                style="color: transparent;">
+                                                                                <button type="button"
+                                                                                    class="btn btn-md" id="btn36000"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#ModalInfo"
+                                                                                    style="background: url('assets/img/moto1.png') no-repeat center center; background-size: cover; border: none; width: 80px; height: 30px; display: none;"></button>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr style="height: 36px;">
+                                                                            <td id="25000"
+                                                                                style="color: transparent;">
+                                                                                <button type="button"
+                                                                                    class="btn btn-md" id="btn25000"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#ModalInfo"
+                                                                                    style="background: url('assets/img/moto1.png') no-repeat center center; background-size: cover; border: none; width: 80px; height: 30px; display: none;"></button>
+                                                                            </td>
+                                                                            <td id="37000"
+                                                                                style="color: transparent;">
+                                                                                <button type="button"
+                                                                                    class="btn btn-md" id="btn37000"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#ModalInfo"
+                                                                                    style="background: url('assets/img/moto1.png') no-repeat center center; background-size: cover; border: none; width: 80px; height: 30px; display: none;"></button>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr style="height: 36px;">
+                                                                            <td id="26000"
+                                                                                style="color: transparent;">
+                                                                                <button type="button"
+                                                                                    class="btn btn-md" id="btn26000"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#ModalInfo"
+                                                                                    style="background: url('assets/img/moto1.png') no-repeat center center; background-size: cover; border: none; width: 80px; height: 30px; display: none;"></button>
+                                                                            </td>
+                                                                            <td id="38000"
+                                                                                style="color: transparent;">
+                                                                                <button type="button"
+                                                                                    class="btn btn-md" id="btn38000"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#ModalInfo"
+                                                                                    style="background: url('assets/img/moto1.png') no-repeat center center; background-size: cover; border: none; width: 80px; height: 30px; display: none;"></button>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr style="height: 36px;">
+                                                                            <td id="27000"
+                                                                                style="color: transparent;">
+                                                                                <button type="button"
+                                                                                    class="btn btn-md" id="btn27000"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#ModalInfo"
+                                                                                    style="background: url('assets/img/moto1.png') no-repeat center center; background-size: cover; border: none; width: 80px; height: 30px; display: none;"></button>
+                                                                            </td>
+                                                                            <td id="39000"
+                                                                                style="color: transparent;">
+                                                                                <button type="button"
+                                                                                    class="btn btn-md" id="btn39000"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#ModalInfo"
+                                                                                    style="background: url('assets/img/moto1.png') no-repeat center center; background-size: cover; border: none; width: 80px; height: 30px; display: none;"></button>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr style="height: 36px;">
+                                                                            <td id="28000"
+                                                                                style="color: transparent;">
+                                                                                <button type="button"
+                                                                                    class="btn btn-md" id="btn28000"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#ModalInfo"
+                                                                                    style="background: url('assets/img/moto1.png') no-repeat center center; background-size: cover; border: none; width: 80px; height: 30px; display: none;"></button>
+                                                                            </td>
+                                                                            <td id="40000"
+                                                                                style="color: transparent;">
+                                                                                <button type="button"
+                                                                                    class="btn btn-md" id="btn40000"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#ModalInfo"
+                                                                                    style="background: url('assets/img/moto1.png') no-repeat center center; background-size: cover; border: none; width: 80px; height: 30px; display: none;"></button>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr style="height: 36px;">
+                                                                            <td id="29000"
+                                                                                style="color: transparent;">
+                                                                                <button type="button"
+                                                                                    class="btn btn-md" id="btn29000"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#ModalInfo"
+                                                                                    style="background: url('assets/img/moto1.png') no-repeat center center; background-size: cover; border: none; width: 80px; height: 30px; display: none;"></button>
+                                                                            </td>
+                                                                            <td id="41000"
+                                                                                style="color: transparent;">
+                                                                                <button type="button"
+                                                                                    class="btn btn-md" id="btn41000"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#ModalInfo"
+                                                                                    style="background: url('assets/img/moto1.png') no-repeat center center; background-size: cover; border: none; width: 80px; height: 30px; display: none;"></button>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr style="height: 36px;">
+                                                                            <td id="30000"
+                                                                                style="color: transparent;">
+                                                                                <button type="button"
+                                                                                    class="btn btn-md" id="btn30000"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#ModalInfo"
+                                                                                    style="background: url('assets/img/moto1.png') no-repeat center center; background-size: cover; border: none; width: 80px; height: 30px; display: none;"></button>
+                                                                            </td>
+                                                                            <td id="42000"
+                                                                                style="color: transparent;">
+                                                                                <button type="button"
+                                                                                    class="btn btn-md" id="btn42000"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#ModalInfo"
+                                                                                    style="background: url('assets/img/moto1.png') no-repeat center center; background-size: cover; border: none; width: 80px; height: 30px; display: none;"></button>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr style="height: 36px;">
+                                                                            <td id="31000"
+                                                                                style="color: transparent;">
+                                                                                <button type="button"
+                                                                                    class="btn btn-md" id="btn31000"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#ModalInfo"
+                                                                                    style="background: url('assets/img/moto1.png') no-repeat center center; background-size: cover; border: none; width: 80px; height: 30px; display: none;"></button>
+                                                                            </td>
+                                                                            <td id="43000"
+                                                                                style="color: transparent;">
+                                                                                <button type="button"
+                                                                                    class="btn btn-md" id="btn43000"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#ModalInfo"
+                                                                                    style="background: url('assets/img/moto1.png') no-repeat center center; background-size: cover; border: none; width: 80px; height: 30px; display: none;"></button>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr style="height: 36px;">
+                                                                            <td id="32000"
+                                                                                style="color: transparent;">
+                                                                                <button type="button"
+                                                                                    class="btn btn-md" id="btn32000"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#ModalInfo"
+                                                                                    style="background: url('assets/img/moto1.png') no-repeat center center; background-size: cover; border: none; width: 80px; height: 30px; display: none;"></button>
+                                                                            </td>
+                                                                            <td id="44000"
+                                                                                style="color: transparent;">
+                                                                                <button type="button"
+                                                                                    class="btn btn-md" id="btn44000"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#ModalInfo"
+                                                                                    style="background: url('assets/img/moto1.png') no-repeat center center; background-size: cover; border: none; width: 80px; height: 30px; display: none;"></button>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </td>
+                                                            </tr>
+                                                            <tr style="height: 70px;">
+                                                                <td id="17">
+                                                                    <button type="button" class="btn btn-md"
+                                                                        id="btn17" data-toggle="modal"
+                                                                        data-target="#ModalInfo"
+                                                                        style="background: url('assets/img/auto2.png') no-repeat center center; background-size: cover; border: none; width: 200px; height: 70px; display: none;"></button>
+                                                                </td>
+                                                                <td style="color: transparent;">lwwwwwwwwwwwwwwwwwwww
+                                                                </td>
+                                                                <td id="24" style="color: transparent;">
+                                                                    <button type="button" class="btn btn-md"
+                                                                        id="btn24" data-toggle="modal"
+                                                                        data-target="#ModalInfo"
+                                                                        style="background: url('assets/img/auto2.png') no-repeat center center; background-size: cover; border: none; width: 200px; height: 70px; display: none;"></button>
+                                                                </td>
+                                                            </tr>
+                                                            <tr style="height: 70px;">
+                                                                <td id="18" style="color: transparent;">
+                                                                    <button type="button" class="btn btn-md"
+                                                                        id="btn18" data-toggle="modal"
+                                                                        data-target="#ModalInfo"
+                                                                        style="background: url('assets/img/auto2.png') no-repeat center center; background-size: cover; border: none; width: 200px; height: 70px; display: none;"></button>
+                                                                </td>
+                                                                <td style="color: transparent;">lwwwwwwwwwwwwwwwwwwww
+                                                                </td>
+                                                                <td id="25" style="color: transparent;">
+                                                                    <button type="button" class="btn btn-md"
+                                                                        id="btn25" data-toggle="modal"
+                                                                        data-target="#ModalInfo"
+                                                                        style="background: url('assets/img/auto2.png') no-repeat center center; background-size: cover; border: none; width: 200px; height: 70px; display: none;"></button>
+                                                                </td>
+                                                            </tr>
+                                                            <tr style="height: 70px;">
+                                                                <td id="19" style="color: transparent;">
+                                                                    <button type="button" class="btn btn-md"
+                                                                        id="btn19" data-toggle="modal"
+                                                                        data-target="#ModalInfo"
+                                                                        style="background: url('assets/img/auto2.png') no-repeat center center; background-size: cover; border: none; width: 200px; height: 70px; display: none;"></button>
+                                                                </td>
+                                                                <td style="color: transparent;">lwwwwwwwwwwwwwwwwwwww
+                                                                </td>
+                                                                <td id="26" style="color: transparent;">
+                                                                    <button type="button" class="btn btn-md"
+                                                                        id="btn26" data-toggle="modal"
+                                                                        data-target="#ModalInfo"
+                                                                        style="background: url('assets/img/auto2.png') no-repeat center center; background-size: cover; border: none; width: 200px; height: 70px; display: none;"></button>
+                                                                </td>
+                                                            </tr>
+                                                            <tr style="height: 70px;">
+                                                                <td id="20" style="color: transparent;">
+                                                                    <button type="button" class="btn btn-md"
+                                                                        id="btn20" data-toggle="modal"
+                                                                        data-target="#ModalInfo"
+                                                                        style="background: url('assets/img/auto2.png') no-repeat center center; background-size: cover; border: none; width: 200px; height: 70px; display: none;"></button>
+                                                                </td>
+                                                                <td style="color: transparent;">lwwwwwwwwwwwwwwwwwwww
+                                                                </td>
+                                                                <td id="27" style="color: transparent;">
+                                                                    <button type="button" class="btn btn-md"
+                                                                        id="btn27" data-toggle="modal"
+                                                                        data-target="#ModalInfo"
+                                                                        style="background: url('assets/img/auto2.png') no-repeat center center; background-size: cover; border: none; width: 200px; height: 70px; display: none;"></button>
+                                                                </td>
+                                                            </tr>
+                                                            <tr style="height: 70px;">
+                                                                <td id="21" style="color: transparent;">
+                                                                    <button type="button" class="btn btn-md"
+                                                                        id="btn21" data-toggle="modal"
+                                                                        data-target="#ModalInfo"
+                                                                        style="background: url('assets/img/auto2.png') no-repeat center center; background-size: cover; border: none; width: 200px; height: 70px; display: none;"></button>
+                                                                </td>
+                                                                <td style="color: transparent;">lwwwwwwwwwwwwwwwwwwww
+                                                                </td>
+                                                                <td id="28" style="color: transparent;">
+                                                                    <button type="button" class="btn btn-md"
+                                                                        id="btn28" data-toggle="modal"
+                                                                        data-target="#ModalInfo"
+                                                                        style="background: url('assets/img/auto2.png') no-repeat center center; background-size: cover; border: none; width: 200px; height: 70px; display: none;"></button>
+                                                                </td>
+                                                            </tr>
+                                                            <tr style="height: 70px;">
+                                                                <td id="22" style="color: transparent;">
+                                                                    <button type="button" class="btn btn-md"
+                                                                        id="btn22" data-toggle="modal"
+                                                                        data-target="#ModalInfo"
+                                                                        style="background: url('assets/img/auto2.png') no-repeat center center; background-size: cover; border: none; width: 200px; height: 70px; display: none;"></button>
+                                                                </td>
+                                                                <td style="color: transparent;">lwwwwwwwwwwwwwwwwwwww
+                                                                </td>
+                                                                <td id="29" style="color: transparent;">
+                                                                    <button type="button" class="btn btn-md"
+                                                                        id="btn29" data-toggle="modal"
+                                                                        data-target="#ModalInfo"
+                                                                        style="background: url('assets/img/auto2.png') no-repeat center center; background-size: cover; border: none; width: 200px; height: 70px; display: none;"></button>
+                                                                </td>
+                                                            </tr>
+                                                            <tr style="height: 70px;">
+                                                                <td id="23">
+                                                                    <button type="button" class="btn btn-md"
+                                                                        id="btn23" data-toggle="modal"
+                                                                        data-target="#ModalInfo"
+                                                                        style="background: url('assets/img/auto2.png') no-repeat center center; background-size: cover; border: none; width: 200px; height: 70px; display: none;"></button>
+                                                                </td>
+                                                                <td style="color: transparent;">lwwwwwwwwwwwwwwwwwwww
+                                                                </td>
+                                                                <td id="30">
+                                                                    <button type="button" class="btn btn-md"
+                                                                        id="btn30" data-toggle="modal"
+                                                                        data-target="#ModalInfo"
+                                                                        style="background: url('assets/img/auto2.png') no-repeat center center; background-size: cover; border: none; width: 200px; height: 70px; display: none;"></button>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-1">
+                                        <div class="form-group">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-5">
+                                        <div class="form-group">
+                                            <br>
+                                            <form action="" autocomplete="off">
+                                                <fieldset>
+                                                    <legend class="text-center"><i class="far fa-plus-square"></i>
+                                                        &nbsp; HACER INGRESO</legend>
+                                                    <br><br>
+                                                    <div class="container-fluid">
+                                                        <div class="row justify-content-md-center">
+                                                            <div class="col-8">
+                                                                <div class="form-group">
+                                                                    <label for="placa"
+                                                                        class="bmd-label-floating">Placa</label>
+                                                                    <input list="placaList"
+                                                                        class="form-control inp-form" id="placa"
+                                                                        maxlength="30" oninput="llenarConsola()">
+                                                                    <datalist id="placaList">
+                                                                    </datalist>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-8">
+                                                                <div class="form-group">
+                                                                    <label for="empleado"
+                                                                        class="bmd-label-floating">Empleado</label>
+                                                                    <input list="empleadoList"
+                                                                        class="form-control inp-form" id="empleado"
+                                                                        maxlength="30" oninput="llenarConsola()">
+                                                                    <datalist id="empleadoList">
+                                                                    </datalist>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-8">
+                                                                <div class="form-group">
+                                                                    <label for="tarifaList"
+                                                                        class="label">Tarifa</label>
+                                                                    <select class="form-control inp-form"
+                                                                        name="tarifaList" id="tarifaList"
+                                                                        maxlength="30">
+                                                                        <option value="">Selecciona una tarifa
+                                                                        </option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-8">
+                                                                <div class="form-group">
+                                                                    <label for="espacio"
+                                                                        class="label">Espacio</label>
+                                                                    <select class="form-control inp-form"
+                                                                        id="espacio" maxlength="30">
+                                                                        <option value="">Selecciona un espacio
+                                                                        </option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </fieldset>
+                                                <br><br><br>
+                                                <p class="text-center" style="margin-top: 40px;">
+                                                    <button type="reset"
+                                                        class="btn btn-raised btn-secondary btn-sm"><i
+                                                            class="fas fa-paint-roller"></i> &nbsp; LIMPIAR</button>
+                                                    &nbsp; &nbsp;
+                                                    <button type="button" class="btn btn-raised btn-success btn-sm"
+                                                        onclick="guardar()"><i class="far fa-save"></i> &nbsp;
+                                                        GUARDAR</button>
+                                                </p>
+                                            </form>
+                                            <div class="d-flex justify-content-center">
+                                                <button type="button" class="btn btn-raised btn-info btn-sm"
+                                                    data-toggle="modal" data-target="#ModalServicios">
+                                                    <i class="fas fa-running"></i> &nbsp; SERVICIOS
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Content -->
+            <div class="full-box tile-container">
+
+                <a href="emple-list.html" class="tile">
+                    <div class="tile-tittle">Empleados</div>
+                    <div class="tile-icon">
+                        <i class="fas fa-users fa-fw"></i>
+                        <p id="empleTotal">Sin conteo</p>
+                    </div>
+                </a>
+
+                <a href="cars-list.html" class="tile">
+                    <div class="tile-tittle">Vehiculos</div>
+                    <div class="tile-icon">
+                        <i class="fas fa-car fa-fw"></i>
+                        <p id="vehicTotal">Sin conteo</p>
+                    </div>
+                </a>
+
+                <a href="ticket-list.html" class="tile">
+                    <div class="tile-tittle">Tickets</div>
+                    <div class="tile-icon">
+                        <i class="fas fa-ticket-alt fa-fw"></i>
+                        <p id="ticketTotal">Sin conteo</p>
+                    </div>
+                </a>
+
+                <a href="tarifa-list.html" class="tile">
+                    <div class="tile-tittle">Tarifas</div>
+                    <div class="tile-icon">
+                        <i class="fas fa-comment-dollar fa-fw"></i>
+                        <p id="tarifaTotal">Sin conteo</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- MODAL SERVICIOS -->
+            <div class="modal fade" id="ModalServicios" tabindex="-1" role="dialog" aria-labelledby="ModalItem"
+                aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <legend><i class="fas fa-table"></i> &nbsp; Tabla de Servicio</legend>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="container-fluid">
+                                <!-- Content -->
+                                <div class="container-fluid">
+                                    <!-- Barra de busqueda -->
+                                    <div class="form-group search-bar" id="buscador">
+                                        <div class="input-group" style="width: 60%">
+                                            <div class="input-group-prepend" style="margin-right: 10px;">
+                                                <span class="input-group-text"><i class="fas fa-search"></i></span>
+                                            </div>
+                                            <input type="text" class="form-control custom-input inp-form"
+                                                id="searchInput" placeholder="Buscar">
+                                        </div>
+                                        <div class="input-group-prepend" style="margin-right: 10px;">
+                                            <span class="input-group-text"><i class="fas fa-filter"></i></span>
+                                        </div>
+                                        <select class="form-control custom-input inp-form" id="filterInputTar">
+                                        </select>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table class="table table-dark table-sm">
+                                            <thead>
+                                                <tr class="text-center roboto-medium">
+                                                    <th>#</th>
+                                                    <th>PLACA</th>
+                                                    <th>EMPLEADO</th>
+                                                    <th>ENTRADA</th>
+                                                    <th>TARIFA</th>
+                                                    <th>ESPACIO</th>
+                                                    <th>ACCIONES</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tabla-servicio-body">
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <nav aria-label="Page navigation example">
+                                        <ul class="pagination justify-content-center">
+                                            <li class="page-item disabled">
+                                                <a class="page-link" href="#" tabindex="-1">Previous</a>
+                                            </li>
+                                            <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                            <li class="page-item">
+                                                <a class="page-link" href="#">Next</a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MODAL MODIFICAR -->
+            <div class="modal fade" id="ModalModificar" tabindex="-1" role="dialog" aria-labelledby="ModalItem"
+                aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <legend><i class="fas fa-pencil-alt"></i> &nbsp; Modificar Servicio</legend>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="container-fluid">
+                                <input type="text" pattern="[0-9]{1,20}" class="form-control id" id="id"
+                                    maxlength="25">
+                                <form action="" autocomplete="off">
+                                    <fieldset>
+                                        <div class="container-fluid">
+                                            <div class="row justify-content-md-center">
+                                                <div class="col-8">
+                                                    <div class="form-group">
+                                                        <label for="placa" class="label">Placa</label>
+                                                        <input list="placaList" class="form-control inp-form"
+                                                            id="placaM" maxlength="30" oninput="llenarConsola()">
+                                                        <datalist id="placaList">
+                                                        </datalist>
+                                                    </div>
+                                                </div>
+                                                <div class="col-8">
+                                                    <div class="form-group">
+                                                        <label for="empleado" class="label">Empleado</label>
+                                                        <input list="empleadoList" class="form-control inp-form"
+                                                            id="empleadoM" maxlength="30" oninput="llenarConsola()">
+                                                        <datalist id="empleadoList">
+                                                        </datalist>
+                                                    </div>
+                                                </div>
+                                                <div class="col-8">
+                                                    <div class="form-group">
+                                                        <label for="tarifaListE" class="label">Tarifa</label>
+                                                        <select class="form-control inp-form" name="tarifaListE"
+                                                            id="tarifaListE" maxlength="30">
+                                                            <option value="">Selecciona una tarifa
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-8">
+                                                    <div class="form-group">
+                                                        <label for="espacioE" class="label">Espacio</label>
+                                                        <select class="form-control inp-form" name="espacioE"
+                                                            id="espacioE" maxlength="30">
+                                                            <option value="">Selecciona un espacio
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                    <p class="text-center" style="margin-top: 40px;">
+                                        <button type="reset" class="btn btn-raised btn-secondary btn-sm"
+                                            data-dismiss="modal"><i class="fas fa-arrow-left"></i> &nbsp;
+                                            Cancelar</button>
+                                        &nbsp; &nbsp;
+                                        <button type="submit" class="btn btn-raised btn-success btn-sm"
+                                            onclick="guardarModdificacion()"><i class="fas fa-sync-alt"></i> &nbsp;
+                                            GUARDAR</button>
+                                    </p>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MODAL INFO -->
+            <div class="modal fade" id="ModalInfo" tabindex="-1" role="dialog" aria-labelledby="ModalItem"
+                aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <legend><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; Informacion del Servicio
+                            </legend>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="container-fluid">
+                                <input type="text" pattern="[0-9]{1,20}" class="form-control id" id="idI"
+                                    maxlength="25">
+                                <form action="" autocomplete="off">
+                                    <fieldset>
+                                        <div class="container-fluid">
+                                            <div class="row justify-content-md-center">
+                                                <div class="col-8">
+                                                    <div class="form-group">
+                                                        <label for="placa" class="label">Placa</label>
+                                                        <input type="text" pattern="[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ ]{1,20}"
+                                                            class="form-control" name="placaI" id="placaI"
+                                                            maxlength="40" readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="col-8">
+                                                    <div class="form-group">
+                                                        <label for="empleado" class="label">Empleado</label>
+                                                        <input type="text" pattern="[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ ]{1,20}"
+                                                            class="form-control" name="empleadoI" id="empleadoI"
+                                                            maxlength="40" readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="col-8">
+                                                    <div class="form-group">
+                                                        <label for="fecha" class="label">Entrada</label>
+                                                        <input type="text" pattern="[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ ]{1,20}"
+                                                            class="form-control" name="fechaEntradaI"
+                                                            id="fechaEntradaI" maxlength="40" readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="col-8">
+                                                    <div class="form-group">
+                                                        <label for="idTarifa" class="label">Tarifa</label>
+                                                        <input type="text"
+                                                            pattern="[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ ]{1,20}"
+                                                            class="form-control" name="idTarifaI" id="idTarifaI"
+                                                            maxlength="40" readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="col-8">
+                                                    <div class="form-group">
+                                                        <label for="espacio" class="label">Espacio</label>
+                                                        <input type="text"
+                                                            pattern="[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ ]{1,20}"
+                                                            class="form-control" name="espacioI" id="espacioI"
+                                                            maxlength="40" readonly>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                    <p class="text-center" style="margin-top: 40px;">
+                                        <button type="reset" class="btn btn-raised btn-secondary btn-sm"
+                                            data-dismiss="modal"><i class="fas fa-arrow-left"></i> &nbsp;
+                                            Salir</button>
+                                        &nbsp; &nbsp;
+                                        <button type="button" class="btn btn-raised btn-danger"
+                                            onclick="darTicket()"><i class="fas fa-arrow-up"></i> &nbsp; Dar
+                                            Salida</button>
+                                    </p>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+
+    <!--=============================================
+ =            Include JavaScript files           =
+ ==============================================-->
+    <!-- jQuery V3.4.1 -->
+    <script src="./js/jquery-3.4.1.min.js"></script>
+
+    <!-- popper -->
+    <script src="./js/popper.min.js"></script>
+
+    <!-- Bootstrap V4.3 -->
+    <script src="./js/bootstrap.min.js"></script>
+
+    <!-- jQuery Custom Content Scroller V3.1.5 -->
+    <script src="./js/jquery.mCustomScrollbar.concat.min.js"></script>
+
+    <!-- Bootstrap Material Design V4.0 -->
+    <script src="./js/bootstrap-material-design.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('body').bootstrapMaterialDesign();
+            llenarTabla();
+            llenarEspacios();
+            llenarSelectTarifas();
+
+            // Realizar una petición AJAX al servidor para obtener los datos del usuario
+            $.ajax({
+                url: 'sessionStart.php',
+                type: 'GET',
+                dataType: 'json',
+                success: function(response) {
+                    // Actualizar los elementos HTML con los datos del usuario
+                    $('.nav-lateral-avatar figcaption').html(response.userName +
+                        '<br><small class="roboto-condensed-light">' + response.nombre + '</small>');
+
+                },
+                error: function(xhr, status, error) {
+                    console.log(xhr.responseText);
+                    // Manejar el error de la petición AJAX
+                    alert('Error al obtener los datos del usuario.');
+                    window.location.href = 'index.html';
+                }
+            });
+
+            $.ajax({
+                url: 'vehic/consultar-vehiculo.php', // Ruta al script PHP 
+                method: 'GET',
+                success: function(response) {
+
+                    var dataList = document.getElementById("placaList");
+
+                    // Recorrer los productos y agregar opciones al desplegable
+                    $.each(response, function(i, vehiculo) {
+                        var option = document.createElement("option");
+                        option.value = vehiculo.placa + " id:" + vehiculo.id;
+                        dataList.appendChild(option);
+
+                    });
+                },
+                error: function() {
+                    alert('Error al cargar las placas en la Consola.');
+                }
+            });
+
+            $.ajax({
+                url: 'emple/consultar-empleado.php', // Ruta al script PHP 
+                method: 'GET',
+                success: function(response) {
+
+                    var dataList = document.getElementById("empleadoList");
+
+                    // Recorrer los productos y agregar opciones al desplegable
+                    $.each(response, function(i, empleado) {
+                        var option = document.createElement("option");
+                        option.value = empleado.nombres + " id:" + empleado.id;
+                        dataList.appendChild(option);
+
+                    });
+                },
+                error: function() {
+                    alert('Error al cargar los empleados en la Consola.');
+                }
+            });
+
+            $.ajax({
+                url: 'tarifa/consultar-tarifa.php', // Ruta al script PHP para obtener los productos
+                method: 'GET',
+                success: function(response) {
+
+                    var dataList = document.getElementById("tarifaList");
+                    var dataListE = document.getElementById("tarifaListE");
+
+                    // Recorrer los productos y agregar opciones al desplegable
+                    $.each(response, function(i, tarifa) {
+                        var option = document.createElement("option");
+                        option.text = tarifa.tipoTarifa;
+                        option.value = tarifa.id;
+                        dataList.appendChild(option);
+
+                        var optionE = document.createElement("option");
+                        optionE.text = tarifa.tipoTarifa;
+                        optionE.value = tarifa.id;
+                        dataListE.appendChild(optionE);
+
+                    });
+                },
+                error: function() {
+                    alert('Error al cargar las tarifas en la Consola.');
+                }
+            });
+
+            $.ajax({
+                url: 'servicio/consultar-servicio.php', // Ruta al script PHP 
+                method: 'GET',
+                success: function(response) {
+                    var espacioOcupadosArrayList = [];
+                    var selectElement = document.getElementById("espacio");
+                    var selectElementE = document.getElementById("espacioE");
+
+                    // Recorrer la respuesta para obtener los espacios ocupados
+                    $.each(response, function(i, servicio) {
+                        espacioOcupadosArrayList.push(servicio.espacio);
+                    });
+
+                    // Agregar opciones al select para los espacios disponibles
+                    for (var i = 1; i <= 30; i++) {
+                        // Verificar si el número 'i' está en el array
+                        if (espacioOcupadosArrayList.indexOf(i.toString()) === -1) {
+                            var option = document.createElement("option");
+                            option.text = i;
+                            option.value = i;
+                            selectElement.appendChild(option);
+                        }
+                        var option = document.createElement("option");
+                        option.text = i;
+                        option.value = i;
+                        selectElementE.appendChild(option);
+                    }
+
+                    for (var i = 1000; i <= 44000; i += 1000) {
+                        // Verificar si el número 'M' + i está en el array
+                        if (espacioOcupadosArrayList.indexOf(i.toString()) === -1) {
+                            var option = document.createElement("option");
+                            option.text = "M" + i / 1000;
+                            option.value = "M" + i / 1000;
+                            selectElement.appendChild(option);
+                        }
+                        var option = document.createElement("option");
+                        option.text = "M" + i / 1000;
+                        option.value = "M" + i / 1000;
+                        selectElementE.appendChild(option);
+                    }
+                },
+                error: function() {
+                    alert('Error al cargar los espacios en la Consola.');
+                }
+            });
+
+            $.ajax({
+                url: 'emple/consultar-empleado.php',
+                type: 'GET',
+                dataType: 'json',
+                success: function(response) {
+
+                    var total = 0;
+                    $.each(response, function(i, empleado) {
+                        total += 1;
+                    });
+                    //console.log(total);
+                    $('#empleTotal').text(total + ' Registrados');
+
+                },
+                error: function(xhr, status, error) {
+                    console.log(xhr.responseText);
+                    alert('Error al obtener el número de empleados registrados.');
+                }
+            });
+
+            $.ajax({
+                url: 'vehic/consultar-vehiculo.php',
+                type: 'GET',
+                dataType: 'json',
+                success: function(response) {
+
+                    var total = 0;
+                    $.each(response, function(i, vehiculo) {
+                        total += 1;
+                    });
+                    //console.log(total);
+                    $('#vehicTotal').text(total + ' Registrados');
+
+                },
+                error: function(xhr, status, error) {
+                    console.log(xhr.responseText);
+                    alert('Error al obtener el número de vehiculos registrados.');
+                }
+            });
+
+            $.ajax({
+                url: 'ticket/consultar-ticket.php',
+                type: 'GET',
+                dataType: 'json',
+                success: function(response) {
+
+                    var total = 0;
+                    $.each(response, function(i, ticket) {
+                        total += 1;
+                    });
+                    //console.log(total);
+                    $('#ticketTotal').text(total + ' Registrados');
+
+                },
+                error: function(xhr, status, error) {
+                    console.log(xhr.responseText);
+                    alert('Error al obtener el número de tickets registrados.');
+                }
+            });
+
+            $.ajax({
+                url: 'tarifa/consultar-tarifa.php',
+                type: 'GET',
+                dataType: 'json',
+                success: function(response) {
+
+                    var total = 0;
+                    $.each(response, function(i, tarifa) {
+                        total += 1;
+                    });
+                    //console.log(total);
+                    $('#tarifaTotal').text(total + ' Registradas');
+
+                },
+                error: function(xhr, status, error) {
+                    console.log(xhr.responseText);
+                    alert('Error al obtener el número de tarifas registradas.');
+                }
+            });
+
+        });
+    </script>
+
+    <script src="./js/main.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Obtén referencias a las secciones
+            var sotano1box = document.getElementById('sotano1box');
+            var sotano2box = document.getElementById('sotano2box');
+
+            // Obtén referencias al botón
+            var toggleButton = document.getElementById('toggleButton');
+
+            // Agrega un manejador de eventos al botón
+            toggleButton.addEventListener('click', function() {
+                // Alterna la visibilidad de las secciones
+                if (sotano1box.style.display === 'none') {
+                    sotano1box.style.display = 'block';
+                    sotano2box.style.display = 'none';
+                } else {
+                    sotano1box.style.display = 'none';
+                    sotano2box.style.display = 'block';
+                }
+            });
+        });
+
+        function llenarEspacios() {
+            // Hacer una consulta AJAX para obtener los espacios ocupados
+            $.ajax({
+                url: 'servicio/consultar-servicio.php',
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    $.each(data, function(i, servicio) {
+                        // Obtener el elemento td por su ID
+                        var tdElement = document.getElementById(servicio.espacio);
+
+                        // Verificar si el elemento td existe
+                        if (tdElement) {
+
+                            // Buscar el botón existente por su id
+                            var buttonElement = document.getElementById("btn" + servicio.espacio);
+
+                            // Verificar si el botón existe
+                            if (buttonElement) {
+                                // Hacer visible el botón cambiando su estilo
+                                buttonElement.style.display = "block";
+                                // Agregar el evento onclick al botón
+                                buttonElement.onclick = function() {
+                                    verInfo(servicio.id);
+                                };
+                            } else {
+                                console.log("Botón no encontrado para el espacio " + servicio.espacio);
+                            }
+                        } else {
+                            console.log("Elemento td no encontrado");
+                        }
+
+                    });
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+        }
+
+        function vaciarEspacio(espacio) {
+            // Obtener el elemento td por su ID
+            var tdElement = document.getElementById(espacio);
+
+            // Verificar si el elemento td existe
+            if (tdElement) {
+
+                // Hacer invisible el botón si existe
+                var buttonElement = document.getElementById('btn' + espacio);
+                if (buttonElement) {
+                    buttonElement.style.display = "none";
+                    console.log("Botón vuelto invisible");
+                }
+            } else {
+                console.log("Elemento td no encontrado");
+            }
+        }
+
+        function llenarConsola() {
+            var placa = document.getElementById("placa").value;
+
+            // Utilizando una expresión regular para obtener el número después de "id:"
+            var idMatch = placa.match(/id:(\d+)/);
+            if (idMatch && idMatch[1]) {
+                var id = idMatch[1];
+
+                $.ajax({
+                    url: 'vehic/consultar-vehiculo.php',
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        $.each(data, function(i, vehiculo) {
+                            if (vehiculo.id == id) {
+
+                                $('#empleado').val(vehiculo.nombresEmpleado + ' id:' + vehiculo
+                                    .idEmpleado);
+                            }
+                        });
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+                });
+
+            } else {
+                console.log("No se encontró un ID en la cadena.");
+                return null;
+            }
+
+        }
+
+        function llenarTabla() {
+            $.ajax({
+                url: 'servicio/consultar-servicio.php', // Asegúrate de que la URL sea correcta
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    var tablaServicio = '';
+                    $.each(data, function(i, servicio) {
+                        tablaServicio += '<tr class="text-center">';
+                        tablaServicio += '<td>' + servicio.id + '</td>';
+                        tablaServicio += '<td>' + servicio.placa + '</td>';
+                        tablaServicio += '<td>' + servicio.empleado + '</td>';
+                        tablaServicio += '<td>' + servicio.fechaEntrada + '</td>';
+                        tablaServicio += '<td>' + servicio.tipoTarifa + '</td>';
+                        var espa = servicio.espacio;
+                        var espacio = 0;
+                        if (espa >= 1000) {
+                            espacio = "M" + espa / 1000;
+                        } else {
+                            espacio = espa;
+                        }
+                        tablaServicio += '<td>' + espacio + '</td>';
+                        tablaServicio += '<td>';
+                        tablaServicio +=
+                            '<button type="button" class="btn btn-success" id="editar" data-toggle="modal" data-target="#ModalModificar" onclick="modificar(' +
+                            servicio.id + ')"><i class="fas fa-pencil-alt"></i></button>';
+                        tablaServicio +=
+                            '<button type="button" class="btn btn-warning" onclick="eliminar(' +
+                            servicio.id + ')"><i class="far fa-trash-alt"></i></button>';
+                        tablaServicio +=
+                            '<button type="button" class="btn btn-warning" onclick="guardarTicket(' +
+                            servicio.id + ')"><i class="fas fa-arrow-up"></i></button>';
+                        tablaServicio += '</td>';
+                        tablaServicio += '</tr>';
+                    });
+                    $('#tabla-servicio-body').html(
+                        tablaServicio); // Asegúrate de que el ID de la tabla HTML sea el correcto
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+        }
+
+        // Función para guardar un servicio
+        function guardar() {
+            // Obtener los valores de los campos de entrada
+            var placa = document.getElementById('placa').value || "Indefinido";
+            var empleado = document.getElementById('empleado').value || "Indefinido";
+            var hoy = new Date();
+            // Obtener los componentes de la fecha y hora
+            var year = hoy.getFullYear(); // Año
+            var month = ('0' + (hoy.getMonth() + 1)).slice(-
+                2); // Mes (se suma 1 porque en JavaScript los meses van de 0 a 11)
+            var day = ('0' + hoy.getDate()).slice(-2); // Día
+            var hours = ('0' + hoy.getHours()).slice(-2); // Horas
+            var minutes = ('0' + hoy.getMinutes()).slice(-2); // Minutos
+            var seconds = ('0' + hoy.getSeconds()).slice(-2); // Segundos
+
+            // Formatear la fecha en el formato "YYYY-MM-DD HH:mm:ss"
+            var fechaEntrada = year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds;
+            var idTarifa = document.getElementById('tarifaList').value || "Indefinido";
+            var espa = document.getElementById('espacio').value || "Indefinido";
+            var espacio = 0;
+            if (espa.includes("M")) {
+                espa = espa.replace("M", "");
+                //console.log(espa);
+                espacio = espa * 1000;
+            } else {
+                espacio = espa;
+                //console.log(espacio);
+            }
+
+            if (placa != "Indefinido" && empleado != "Indefinido" && idTarifa != "Indefinido" && espacio !=
+                "Indefinido") {
+
+                // Crear un objeto FormData y agregar los valores de los campos de entrada
+                var formData = new FormData();
+                formData.append('placa', placa);
+                formData.append('empleado', empleado);
+                formData.append('fechaEntrada', fechaEntrada);
+                formData.append('idTarifa', idTarifa);
+                formData.append('espacio', espacio);
+
+                formData.forEach(function(value, key) {
+                    //console.log(key, value);
+                });
+
+                // Crear una solicitud AJAX
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', 'servicio/registrar-servicio.php', true);
+                xhr.onload = function() {
+                    if (xhr.status === 200) {
+                        // La solicitud se completó con éxito
+                        console.log(xhr.responseText);
+                        location.reload();
+                    } else {
+                        // Se produjo un error al procesar la solicitud
+                        console.log("error al procesar la solicitud");
+                        console.error(xhr.statusText);
+                    }
+                };
+                xhr.onerror = function() {
+                    // Se produjo un error de red u otro error al realizar la solicitud
+                    console.log("error de red");
+                    console.error(xhr.statusText);
+                };
+                xhr.send(formData);
+
+            } else {
+                alert("Asegurate de llenar todas las casillas.");
+            }
+        }
+
+        // Función para eliminar un servicio
+        function eliminar(idServicio) {
+            Swal.fire({
+                title: '¿Seguro de eliminar este Servicio?',
+                text: "Estas seguro de eliminar permanentemente este Servicio.",
+                type: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Si, eliminar!',
+                cancelButtonText: 'No, cancelar'
+            }).then((result) => {
+                if (result.value) {
+                    $.ajax({
+                        url: 'servicio/eliminar-servicio.php',
+                        type: 'GET',
+                        data: {
+                            idServicio: idServicio
+                        },
+                        success: function(response) {
+                            // Lógica después de eliminar el servicio
+                            console.log('Servicio eliminado');
+                            location.reload(); // Recarga la página
+                        },
+                        error: function(error) {
+                            console.log(error);
+                            alert("Identificador de Servicio no proporcionado.");
+                        }
+                    });
+                }
+            });
+        }
+
+        function modificar(idServicio) {
+            $.ajax({
+                url: 'servicio/consultar-servicio.php',
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    $.each(data, function(i, servicio) {
+                        if (servicio.id == idServicio) {
+                            $('#id').val(servicio.id);
+                            $('#placaM').val(servicio.placa);
+                            $('#empleadoM').val(servicio.empleado);
+                            var tarifaSelect = $('#tarifaListE');
+                            var optionT = tarifaSelect.find('option[value="' + servicio.idTarifa + '"]');
+                            if (optionT.length > 0) {
+                                // Seleccionar la opción si está disponible
+                                tarifaSelect.val(optionT.val());
+                            } else {
+                                console.log("La tarifa " + servicio.idTarifa +
+                                    " no está disponible en el select tarifa modificar.");
+                            }
+
+                            var espacio = servicio.espacio;
+                            if (espacio >= 1000) {
+                                espacio = "M" + (espacio / 1000);
+                            }
+                            var espacioSelect = $('#espacioE');
+                            // Buscar la opción con el valor correspondiente al espacio
+                            var option = espacioSelect.find('option[value="' + espacio + '"]');
+                            if (option.length > 0) {
+                                // Seleccionar la opción si está disponible
+                                espacioSelect.val(option.val());
+                            } else {
+                                console.log("El espacio " + espacio +
+                                    " no está disponible en el select espacios modificar.");
+                            }
+                        }
+                    });
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+        }
+
+        function verInfo(idServicio) {
+            $.ajax({
+                url: 'servicio/consultar-servicio.php',
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    $.each(data, function(i, servicio) {
+                        if (servicio.id == idServicio) {
+
+                            $('#idI').val(servicio.id);
+                            $('#placaI').val(servicio.placa);
+                            $('#empleadoI').val(servicio.empleado);
+                            $('#fechaEntradaI').val(servicio.fechaEntrada);
+                            $('#idTarifaI').val(servicio.tipoTarifa);
+                            var espa = servicio.espacio;
+                            var espacio = 0;
+                            if (espa >= 1000) {
+                                espacio = "M" + espa / 1000;
+                            } else {
+                                espacio = espa;
+                            }
+                            $('#espacioI').val(espacio);
+                        }
+                    });
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+        }
+
+        function guardarModdificacion() {
+            // Obtener el idUsuario
+            var idServicio = document.getElementById('id').value || "0";
+
+            // Obtener los valores de los campos de entrada
+            var placa = document.getElementById('placaM').value || "Indefinido";
+            var empleado = document.getElementById('empleadoM').value || "Indefinido";
+            var idTarifa = document.getElementById('tarifaListE').value || "Indefinido";
+            var espa = document.getElementById('espacioE').value || "Indefinido";
+            var espacio = 0;
+            if (espa.includes("M")) {
+                espa = espa.replace("M", "");
+                espacio = espa * 1000;
+            } else {
+                espacio = espa;
+            }
+
+            // Crear un objeto FormData y agregar los valores de los campos de entrada
+            var formData = new FormData();
+            formData.append('idServicio', idServicio);
+            formData.append('placa', placa);
+            formData.append('empleado', empleado);
+            formData.append('idTarifa', idTarifa);
+            formData.append('espacio', espacio);
+
+            // Crear una solicitud AJAX
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'servicio/modificar-servicio.php', true);
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    // La solicitud se completó con éxito
+                    //alert("La Membresia ha sido modificado exitosamente.");
+                    console.log(xhr.responseText);
+                    //location.reload();
+                } else {
+                    // Se produjo un error al procesar la solicitud
+                    console.log("Error al procesar la solicitud");
+                    console.error(xhr.statusText);
+                }
+            };
+            xhr.onerror = function() {
+                // Se produjo un error de red u otro error al realizar la solicitud
+                console.log("Error de red");
+                console.error(xhr.statusText);
+            };
+            xhr.send(formData);
+        }
+
+        function darTicket() {
+            // Obtener el idServicio
+            var idServicio = document.getElementById('idI').value || "0";
+            guardarTicket(idServicio);
+
+            Swal.fire({
+                title: '¿Seguro de terminar este Servicio?',
+                text: "Estas seguro de terminar permanentemente este Servicio.",
+                type: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Si, terminar!',
+                cancelButtonText: 'No, cancelar'
+            }).then((result) => {
+                if (result.value) {
+                    location.reload(); // Recarga la página
+                }
+            });
+        }
+
+        function guardarTicket(idServicio) {
+            $.ajax({
+                url: 'servicio/consultar-servicio.php',
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    $.each(data, function(i, servicio) {
+                        if (servicio.id == idServicio) {
+
+                            vaciarEspacio(servicio.espacio);
+
+                            // Obtener los valores de los campos de entrada
+                            var plac = servicio.placa;
+                            var matches = plac.match(
+                                /^(.*?)\sid:(\d+)$/
+                            ); // Utilizar expresión regular para extraer la placa y el número ID
+
+                            // Verificar si se encontraron coincidencias
+                            if (matches) {
+                                var placa = matches[1]; // La placa se encuentra en el grupo 1
+                                var idVehiculo = matches[2]; // El número ID se encuentra en el grupo 2
+
+                                $.ajax({
+                                    url: 'vehic/consultar-vehiculo.php',
+                                    type: 'GET',
+                                    dataType: 'json',
+                                    success: function(data) {
+                                        $.each(data, function(i, vehiculo) {
+                                            if (vehiculo.id == idVehiculo) {
+
+                                                var tipoVehiculo = vehiculo
+                                                    .tipoVehiculo;
+
+                                                var emplead = servicio.empleado;
+                                                // Utilizar expresión regular para extraer el nombre y el número ID
+                                                var matchesEmpleado = emplead.match(
+                                                    /^(.*?)\sid:(\d+)$/);
+
+                                                // Verificar si se encontraron coincidencias
+                                                if (matchesEmpleado) {
+                                                    var nombreEmpleado =
+                                                        matchesEmpleado[
+                                                            1
+                                                        ]; // El nombre del empleado se encuentra en el grupo 1
+                                                    var idEmpleado =
+                                                        matchesEmpleado[
+                                                            2
+                                                        ]; // El número ID del empleado se encuentra en el grupo 2
+
+                                                    $.ajax({
+                                                        url: 'emple/consultar-empleado.php',
+                                                        type: 'GET',
+                                                        dataType: 'json',
+                                                        success: function(
+                                                            data) {
+                                                            $.each(data,
+                                                                function(
+                                                                    i,
+                                                                    empleado
+                                                                ) {
+                                                                    if (empleado
+                                                                        .id ==
+                                                                        idEmpleado
+                                                                    ) {
+
+                                                                        var documento =
+                                                                            empleado
+                                                                            .numeroDocumento;
+
+                                                                        var fechaEntrada =
+                                                                            new Date(
+                                                                                servicio
+                                                                                .fechaEntrada
+                                                                            );
+                                                                        // Obtener la fecha y hora actual
+                                                                        var fechaSalida =
+                                                                            new Date();
+                                                                        var tarifa =
+                                                                            servicio
+                                                                            .tipoTarifa;
+                                                                        var valor =
+                                                                            servicio
+                                                                            .valorTarifa;
+
+                                                                        // Calcular la diferencia de tiempo en milisegundos
+                                                                        var tiempoTranscurrido =
+                                                                            fechaSalida -
+                                                                            fechaEntrada;
+
+                                                                        // Convertir la diferencia de tiempo a horas
+                                                                        var horasTranscurridas =
+                                                                            tiempoTranscurrido /
+                                                                            (1000 *
+                                                                                60 *
+                                                                                60
+                                                                            );
+
+                                                                        // Calcular el total utilizando la tarifa por hora
+                                                                        var total =
+                                                                            horasTranscurridas *
+                                                                            valor;
+
+                                                                        // Obtener los componentes de la fecha y hora
+                                                                        var year =
+                                                                            fechaEntrada
+                                                                            .getFullYear(); // Año
+                                                                        var month =
+                                                                            ('0' +
+                                                                                (fechaEntrada
+                                                                                    .getMonth() +
+                                                                                    1
+                                                                                )
+                                                                            )
+                                                                            .slice(
+                                                                                -
+                                                                                2
+                                                                            ); // Mes (se suma 1 porque en JavaScript los meses van de 0 a 11)
+                                                                        var day =
+                                                                            ('0' +
+                                                                                fechaEntrada
+                                                                                .getDate()
+                                                                            )
+                                                                            .slice(
+                                                                                -
+                                                                                2
+                                                                            ); // Día
+                                                                        var hours =
+                                                                            ('0' +
+                                                                                fechaEntrada
+                                                                                .getHours()
+                                                                            )
+                                                                            .slice(
+                                                                                -
+                                                                                2
+                                                                            ); // Horas
+                                                                        var minutes =
+                                                                            ('0' +
+                                                                                fechaEntrada
+                                                                                .getMinutes()
+                                                                            )
+                                                                            .slice(
+                                                                                -
+                                                                                2
+                                                                            ); // Minutos
+                                                                        var seconds =
+                                                                            ('0' +
+                                                                                fechaEntrada
+                                                                                .getSeconds()
+                                                                            )
+                                                                            .slice(
+                                                                                -
+                                                                                2
+                                                                            ); // Segundos
+
+                                                                        // Formatear la fecha en el formato "YYYY-MM-DD HH:mm:ss"
+                                                                        var fechaEntradaForm =
+                                                                            year +
+                                                                            '-' +
+                                                                            month +
+                                                                            '-' +
+                                                                            day +
+                                                                            ' ' +
+                                                                            hours +
+                                                                            ':' +
+                                                                            minutes +
+                                                                            ':' +
+                                                                            seconds;
+
+                                                                        // Obtener los componentes de la fecha y hora
+                                                                        var year =
+                                                                            fechaSalida
+                                                                            .getFullYear(); // Año
+                                                                        var month =
+                                                                            ('0' +
+                                                                                (fechaSalida
+                                                                                    .getMonth() +
+                                                                                    1
+                                                                                )
+                                                                            )
+                                                                            .slice(
+                                                                                -
+                                                                                2
+                                                                            ); // Mes (se suma 1 porque en JavaScript los meses van de 0 a 11)
+                                                                        var day =
+                                                                            ('0' +
+                                                                                fechaSalida
+                                                                                .getDate()
+                                                                            )
+                                                                            .slice(
+                                                                                -
+                                                                                2
+                                                                            ); // Día
+                                                                        var hours =
+                                                                            ('0' +
+                                                                                fechaSalida
+                                                                                .getHours()
+                                                                            )
+                                                                            .slice(
+                                                                                -
+                                                                                2
+                                                                            ); // Horas
+                                                                        var minutes =
+                                                                            ('0' +
+                                                                                fechaSalida
+                                                                                .getMinutes()
+                                                                            )
+                                                                            .slice(
+                                                                                -
+                                                                                2
+                                                                            ); // Minutos
+                                                                        var seconds =
+                                                                            ('0' +
+                                                                                fechaSalida
+                                                                                .getSeconds()
+                                                                            )
+                                                                            .slice(
+                                                                                -
+                                                                                2
+                                                                            ); // Segundos
+
+                                                                        // Formatear la fecha en el formato "YYYY-MM-DD HH:mm:ss"
+                                                                        var fechaSalidaForm =
+                                                                            year +
+                                                                            '-' +
+                                                                            month +
+                                                                            '-' +
+                                                                            day +
+                                                                            ' ' +
+                                                                            hours +
+                                                                            ':' +
+                                                                            minutes +
+                                                                            ':' +
+                                                                            seconds;
+
+                                                                        // Crear un objeto FormData y agregar los valores de los campos de entrada
+                                                                        var formData =
+                                                                            new FormData();
+                                                                        formData
+                                                                            .append(
+                                                                                'placa',
+                                                                                placa
+                                                                            );
+                                                                        formData
+                                                                            .append(
+                                                                                'tipoVehiculo',
+                                                                                tipoVehiculo
+                                                                            );
+                                                                        formData
+                                                                            .append(
+                                                                                'empleado',
+                                                                                nombreEmpleado
+                                                                            );
+                                                                        formData
+                                                                            .append(
+                                                                                'documento',
+                                                                                documento
+                                                                            );
+                                                                        formData
+                                                                            .append(
+                                                                                'fechaEntrada',
+                                                                                fechaEntradaForm
+                                                                            );
+                                                                        formData
+                                                                            .append(
+                                                                                'fechaSalida',
+                                                                                fechaSalidaForm
+                                                                            );
+                                                                        formData
+                                                                            .append(
+                                                                                'tarifa',
+                                                                                tarifa
+                                                                            );
+                                                                        formData
+                                                                            .append(
+                                                                                'total',
+                                                                                total
+                                                                            );
+
+                                                                        // Recorrer las entradas del FormData e imprimir por consola
+                                                                        for (
+                                                                            var entry of
+                                                                                formData
+                                                                                .entries()
+                                                                        ) {
+                                                                            //console.log(entry[0], entry[1]);
+                                                                        }
+
+                                                                        // Crear una solicitud AJAX
+                                                                        var xhr =
+                                                                            new XMLHttpRequest();
+                                                                        xhr.open(
+                                                                            'POST',
+                                                                            'ticket/registrar-ticket.php',
+                                                                            true
+                                                                        );
+                                                                        xhr.onload =
+                                                                            function() {
+                                                                                if (xhr
+                                                                                    .status ===
+                                                                                    200
+                                                                                ) {
+                                                                                    // La solicitud se completó con éxito
+                                                                                    //alert("La Membresia ha sido modificado exitosamente.");
+                                                                                    console
+                                                                                        .log(
+                                                                                            xhr
+                                                                                            .responseText
+                                                                                        );
+                                                                                    //location.reload();
+                                                                                } else {
+                                                                                    // Se produjo un error al procesar la solicitud
+                                                                                    console
+                                                                                        .log(
+                                                                                            "Error al procesar la solicitud"
+                                                                                        );
+                                                                                    console
+                                                                                        .error(
+                                                                                            xhr
+                                                                                            .statusText
+                                                                                        );
+                                                                                }
+                                                                            };
+                                                                        xhr.onerror =
+                                                                            function() {
+                                                                                // Se produjo un error de red u otro error al realizar la solicitud
+                                                                                console
+                                                                                    .log(
+                                                                                        "Error de red"
+                                                                                    );
+                                                                                console
+                                                                                    .error(
+                                                                                        xhr
+                                                                                        .statusText
+                                                                                    );
+                                                                            };
+                                                                        xhr.send(
+                                                                            formData
+                                                                        );
+
+                                                                        $.ajax({
+                                                                            url: 'servicio/eliminar-servicio.php',
+                                                                            type: 'GET',
+                                                                            data: {
+                                                                                idServicio: idServicio
+                                                                            },
+                                                                            success: function(
+                                                                                response
+                                                                            ) {
+                                                                                // Lógica después de eliminar el servicio
+                                                                                console
+                                                                                    .log(
+                                                                                        'Servicio eliminado'
+                                                                                    );
+                                                                                location
+                                                                                    .reload(); // Recarga la página
+                                                                            },
+                                                                            error: function(
+                                                                                error
+                                                                            ) {
+                                                                                console
+                                                                                    .log(
+                                                                                        error
+                                                                                    );
+                                                                                alert
+                                                                                    (
+                                                                                        "Identificador de Servicio no proporcionado."
+                                                                                    );
+                                                                            }
+                                                                        });
+                                                                    }
+                                                                });
+                                                        },
+                                                        error: function(
+                                                            error) {
+                                                            console.log(
+                                                                error
+                                                            );
+                                                        }
+                                                    });
+
+                                                } else {
+                                                    // Manejar el caso en el que no se encuentren coincidencias
+                                                    console.log(
+                                                        "No se encontró un formato válido para el nombre del empleado y el ID."
+                                                    );
+                                                }
+
+                                            }
+                                        });
+                                    },
+                                    error: function(error) {
+                                        console.log(error);
+                                    }
+                                });
+
+                            } else {
+                                // Manejar el caso en el que no se encuentren coincidencias
+                                console.log("No se encontró un formato válido para la placa y el ID.");
+                            }
+                        }
+                    });
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+        }
+
+        function llenarSelectTarifas() {
+            $.ajax({
+                url: 'tarifa/consultar-tarifa.php', // archivo 'consultar-empleados.php' para manejar la consulta a la base de datos.
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    var selectTarifa = $('#filterInputTar'); // Selecciona el elemento select por su ID.
+
+                    // Limpia el select para eliminar opciones anteriores.
+                    selectTarifa.empty();
+
+                    // Agrega la opción predeterminada.
+                    selectTarifa.append('<option value="" selected>Todas las Tarifas</option>');
+
+                    // Itera a través de los datos recibidos y agrega las opciones al select.
+                    $.each(data, function(i, tarifa) {
+                        selectTarifa.append($('<option>', {
+                            value: tarifa.tipoTarifa,
+                            text: tarifa.tipoTarifa
+                        }));
+                    });
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+        }
+
+        // Obtener referencias a los elementos de búsqueda y filtro
+        const searchInput = document.getElementById('searchInput');
+        const filterInputTar = document.getElementById('filterInputTar');
+
+        // Agregar eventos de escucha para búsqueda y filtro
+        searchInput.addEventListener('input', handleSearchFilter);
+        filterInputTar.addEventListener('change', handleSearchFilter);
+
+        function handleSearchFilter() {
+            const searchText = searchInput.value.toLowerCase();
+            const filterValueTar = filterInputTar.value.toLowerCase();
+            const rows = document.querySelectorAll('#tabla-servicio-body tr');
+
+            rows.forEach((row) => {
+                const id = row.querySelector('td:nth-child(1)').innerText.toLowerCase();
+                const placa = row.querySelector('td:nth-child(2)').innerText.toLowerCase();
+                const empleado = row.querySelector('td:nth-child(3)').innerText.toLowerCase();
+                const horaEntrada = row.querySelector('td:nth-child(4)').innerText.toLowerCase();
+                const tarifa = row.querySelector('td:nth-child(5)').innerText.toLowerCase();
+                const espacio = row.querySelector('td:nth-child(6)').innerText.toLowerCase();
+
+                if (
+                    (id.includes(searchText) || placa.includes(searchText) || empleado.includes(searchText)
+                     || horaEntrada.includes(searchText) || espacio.includes(searchText)) &&
+                    (filterValueTar === '' || tarifa === filterValueTar)
+                ) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

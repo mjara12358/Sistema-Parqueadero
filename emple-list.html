@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<title>Lista de empleados</title>
+
+	<!-- Normalize V8.0.1 -->
+	<link rel="stylesheet" href="./css/normalize.css">
+
+	<!-- Bootstrap V4.3 -->
+	<link rel="stylesheet" href="./css/bootstrap.min.css">
+
+	<!-- Bootstrap Material Design V4.0 -->
+	<link rel="stylesheet" href="./css/bootstrap-material-design.min.css">
+
+	<!-- Font Awesome V5.9.0 -->
+	<link rel="stylesheet" href="./css/all.css">
+
+	<!-- Sweet Alerts V8.13.0 CSS file -->
+	<link rel="stylesheet" href="./css/sweetalert2.min.css">
+
+	<!-- Sweet Alert V8.13.0 JS file-->
+	<script src="./js/sweetalert2.min.js" ></script>
+
+	<!-- jQuery Custom Content Scroller V3.1.5 -->
+	<link rel="stylesheet" href="./css/jquery.mCustomScrollbar.css">
+	
+	<!-- General Styles -->
+	<link rel="stylesheet" href="./css/style.css">
+
+	<style>
+
+        .id {
+            display: none;
+        }
+
+        .table-busqueda {
+            background-color: rgb(92, 22, 32);
+            /* Cambia #ff0000 por el color deseado */
+            border-radius: 10px;
+            /* Aplica bordes redondos */
+        }
+
+        .custom-input {
+            height: 30px;
+            width: 20%;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: flex-end;
+            justify-content: flex-start;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            padding: 5px;
+            height: 40px;
+            /* Ajusta la altura deseada */
+        }
+
+        .search-bar input {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 5px;
+            height: 30px;
+            margin-top: auto;
+            /* Empujar el input hacia abajo */
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 40px;
+            height: 25px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .letras-negras {
+            color: #000000;
+        }
+
+        .letras-blancas {
+            color: #ffffff;
+        }
+
+	</style>
+
+</head>
+<body>
+	
+	<!-- Main container -->
+	<main class="full-box main-container">
+		<!-- Nav lateral -->
+		<section class="full-box nav-lateral">
+			<div class="full-box nav-lateral-bg show-nav-lateral"></div>
+			<div class="full-box nav-lateral-content">
+				<figure class="full-box nav-lateral-avatar">
+					<i class="far fa-times-circle show-nav-lateral"></i>
+					<img src="./assets/avatar/Avatar.png" class="img-fluid" alt="Avatar">
+					<figcaption class="roboto-medium text-center" id="userSession">
+						- <br><small class="roboto-condensed-light">-</small>
+					</figcaption>
+				</figure>
+				<div class="full-box nav-lateral-bar"></div>
+				<nav class="full-box nav-lateral-menu">
+					<ul>
+						<li>
+							<a href="home.html"><i class="fab fa-dashcube fa-fw"></i> &nbsp; Dashboard</a>
+						</li>
+
+						<li>
+							<a href="emple-list.html"><i class="fas fa-users fa-fw"></i> &nbsp; Lista de Empleados</a>
+						</li>
+
+						<li>
+							<a href="cars-list.html"><i class="fas fa-car fa-fw"></i> &nbsp; Lista de Vehiculos</a>
+						</li>
+
+						<li>
+							<a href="admin-list.html"><i class="fas fa-user-secret fa-fw"></i> &nbsp; Administradores</a>
+						</li>
+
+                        <li>
+							<a href="ticket-list.html"><i class="fas fa-ticket-alt fa-fw"></i> &nbsp; Tickets</a>
+						</li>
+
+                        <li>
+							<a href="tarifa-list.html"><i class="fas fa-comment-dollar fa-fw"></i> &nbsp; Tarifas</a>
+						</li>
+					</ul>
+				</nav>
+			</div>
+		</section>
+
+		<!-- Page content -->
+		<section class="full-box page-content">
+			<nav class="full-box navbar-info">
+				<a href="#" class="float-left show-nav-lateral">
+					<i class="fas fa-exchange-alt"></i>
+				</a>
+				<!-- <a href="user-update.html">
+					<i class="fas fa-user-cog"></i>
+				</a> -->
+				<a href="#" class="btn-exit-system">
+					<i class="fas fa-power-off"></i>
+				</a>
+			</nav>
+
+			<!-- Page header -->
+			<div class="full-box page-header">
+				<h3 class="text-left">
+					<i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE EMPLEADO
+				</h3>
+				<p class="text-justify">
+					¡Bienvenido a nuestra sección de Empleados! En esta página, podrás explorar la lista completa 
+                    de empleados que posiblemente harán uso de nuestro parqueadero, y acceder a todos sus datos de manera sencilla. 
+                    Además, ofrecemos la flexibilidad de agregar nuevos empleados, editar la información existente o eliminar 
+                    empleados según sea necesario, todo en un solo lugar. Estamos aquí para simplificar la gestión de los 
+                    empleados que utilizan nuestro parqueadero, y esperamos que esta sección te brinde una experiencia eficiente 
+                    y conveniente para mantener todo en orden.
+				</p>
+			</div>
+
+			<div class="container-fluid">
+				<ul class="full-box list-unstyled page-nav-tabs">
+					<li>
+						<button type="button" id="openModalButton" style="display: none;" data-toggle="modal" data-target="#ModalAgregar"></button>
+						<a href="javascript:void(0);" onclick="document.getElementById('openModalButton').click();">
+							<i class="fas fa-plus fa-fw"></i> &nbsp; AGREGAR EMPLEADO
+						</a>
+					</li>
+					<li>
+						<a class="active" href="client-list.html"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE EMPLEADO</a>
+					</li>
+				</ul>	
+			</div>
+			
+			<!-- Content here-->
+			<div class="container-fluid">
+				<!-- Barra de busqueda -->
+                <div class="form-group search-bar" id="buscador">
+                    <div class="input-group">
+                        <div class="input-group-prepend" style="margin-right: 10px;">
+                            <span class="input-group-text"><i class="fas fa-search"></i></span>
+                        </div>
+                        <input type="text" class="form-control custom-input inp-form" id="searchInput"
+                            placeholder="Buscar">
+                    </div>
+                </div>
+				<div class="table-responsive">
+					<table class="table table-dark table-sm">
+						<thead>
+							<tr class="text-center roboto-medium">
+								<th>#</th>
+								<th>NOMBRES</th>
+								<th>APELLIDOS</th>
+                                <th>TELEFONO</th>
+								<th>TIPO DE DOCUMENTO</th>
+								<th>NUMERO DE DOCUMENTO</th>
+								<th>ACCIONES</th>
+							</tr>
+						</thead>
+						<tbody id="tabla-empleados-body">
+						</tbody>
+					</table>
+				</div>
+				<nav aria-label="Page navigation example">
+					<ul class="pagination justify-content-center">
+						<li class="page-item disabled">
+							<a class="page-link" href="#" tabindex="-1">Previous</a>
+						</li>
+						<li class="page-item"><a class="page-link" href="#">1</a></li>
+						<li class="page-item"><a class="page-link" href="#">2</a></li>
+						<li class="page-item"><a class="page-link" href="#">3</a></li>
+						<li class="page-item">
+							<a class="page-link" href="#">Next</a>
+						</li>
+					</ul>
+				</nav>
+			</div>
+
+			<!-- MODAL AGREGAR -->
+            <div class="modal fade" id="ModalAgregar" tabindex="-1" role="dialog" aria-labelledby="ModalItem" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="ModalItem">Agregar Empleado</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="container-fluid">
+								<form action="" class="form-neon" autocomplete="off">
+									<fieldset>
+										<legend><i class="far fa-address-card"></i> &nbsp; Informacion del Empleado</legend>
+										<div class="container-fluid">
+											<div class="row">
+												<div class="col-12 col-md-6">
+													<div class="form-group">
+														<label for="cliente_nombre" class="bmd-label-floating" >Nombres</label>
+														<input type="text" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,40}" class="form-control" name="nombres" id="nombres" maxlength="40">
+													</div>
+												</div>
+												<div class="col-12 col-md-6">
+													<div class="form-group">
+														<label for="cliente_apellido" class="bmd-label-floating" >Apellidos</label>
+														<input type="text" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,40}" class="form-control" name="apellidos" id="apellidos" maxlength="40">
+													</div>
+												</div>
+												<div class="col-12 col-md-4">
+													<div class="form-group">
+														<label for="cliente_telefono" class="bmd-label-floating" >Teléfono</label>
+														<input type="text" pattern="[0-9()+]{1,20}" class="form-control" name="telefono" id="telefono" maxlength="20">
+													</div>
+												</div>
+												<div class="col-12 col-md-4">
+													<div class="form-group">
+														<select class="form-control" name="tipoDocumento" id="tipoDocumento">
+															<option value="" selected="" disabled="">Seleccione Tipo de Documento</option>
+															<option value="Tarjeta de Identidad">Tarjeta de Identidad</option>
+															<option value="Cedula de Ciudadania">Cedula de Ciudadania</option>
+														</select>	
+													</div>
+												</div>
+												<div class="col-12 col-md-4">
+													<div class="form-group">
+														<label for="cliente_dni" class="bmd-label-floating" >Numero de Documento</label>
+														<input type="text" pattern="[a-zA-Z0-9-]{1,27}" class="form-control" name="numeroDocumento" id="numeroDocumento" maxlength="27">
+													</div>
+												</div>
+											</div>
+										</div>
+									</fieldset>
+								</form>
+								<p class="text-center" style="margin-top: 40px;">
+									<button type="reset" class="btn btn-raised btn-secondary btn-sm" data-dismiss="modal"><i class="fas fa-arrow-left"></i> &nbsp; Cancelar</button>
+									&nbsp; &nbsp;
+									<button type="submit" class="btn btn-raised btn-info btn-sm" onclick="guardar()"><i class="far fa-save"></i> &nbsp; GUARDAR</button>
+								</p>
+							</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MODAL MODIFICAR -->
+            <div class="modal fade" id="ModalModificar" tabindex="-1" role="dialog" aria-labelledby="ModalItem" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="ModalItem">Modificar Empleado</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="container-fluid">
+                                <input type="text" pattern="[0-9]{1,20}" class="form-control id" id="id" maxlength="25">
+								<form action="" class="form-neon" autocomplete="off">
+									<fieldset>
+										<legend><i class="far fa-address-card"></i> &nbsp; Informacion del Empleado</legend>
+										<div class="container-fluid">
+											<div class="row">
+												<div class="col-12 col-md-6">
+													<div class="form-group">
+														<label for="cliente_nombre" class="label" >Nombres</label>
+														<input type="text" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,40}" class="form-control" name="nombresM" id="nombresM" maxlength="40">
+													</div>
+												</div>
+												<div class="col-12 col-md-6">
+													<div class="form-group">
+														<label for="cliente_apellido" class="label" >Apellidos</label>
+														<input type="text" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,40}" class="form-control" name="apellidosM" id="apellidosM" maxlength="40">
+													</div>
+												</div>
+												<div class="col-12 col-md-4">
+													<div class="form-group">
+														<label for="cliente_telefono" class="label" >Teléfono</label>
+														<input type="text" pattern="[0-9()+]{1,20}" class="form-control" name="telefonoM" id="telefonoM" maxlength="20">
+													</div>
+												</div>
+												<div class="col-12 col-md-4">
+													<div class="form-group">
+														<select class="form-control" name="tipoDocumentoM" id="tipoDocumentoM">
+															<option value="" selected="" disabled="">Seleccione Tipo de Documento</option>
+															<option value="Tarjeta de Identidad">Tarjeta de Identidad</option>
+															<option value="Cedula de Ciudadania">Cedula de Ciudadania</option>
+														</select>	
+													</div>
+												</div>
+												<div class="col-12 col-md-4">
+													<div class="form-group">
+														<label for="cliente_dni" class="label" >Numero de Documento</label>
+														<input type="text" pattern="[a-zA-Z0-9-]{1,27}" class="form-control" name="numeroDocumentoM" id="numeroDocumentoM" maxlength="27">
+													</div>
+												</div>
+											</div>
+										</div>
+									</fieldset>
+								</form>
+								<p class="text-center" style="margin-top: 40px;">
+									<button type="reset" class="btn btn-raised btn-secondary btn-sm" data-dismiss="modal"><i class="fas fa-arrow-left"></i> &nbsp; Cancelar</button>
+									&nbsp; &nbsp;
+									<button type="submit" class="btn btn-raised btn-success btn-sm" onclick="guardarModdificacion()"><i class="fas fa-sync-alt"></i> &nbsp; GUARDAR</button>
+								</p>
+							</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+		</section>
+	</main>
+	
+	<!--=============================================
+	=            Include JavaScript files           =
+	==============================================-->
+	<!-- jQuery V3.4.1 -->
+	<script src="./js/jquery-3.4.1.min.js" ></script>
+
+	<!-- popper -->
+	<script src="./js/popper.min.js" ></script>
+
+	<!-- Bootstrap V4.3 -->
+	<script src="./js/bootstrap.min.js" ></script>
+
+	<!-- jQuery Custom Content Scroller V3.1.5 -->
+	<script src="./js/jquery.mCustomScrollbar.concat.min.js" ></script>
+
+	<!-- Bootstrap Material Design V4.0 -->
+	<script src="./js/bootstrap-material-design.min.js" ></script>
+	<script>
+    $(document).ready(function() { $('body').bootstrapMaterialDesign(); 
+        llenarTabla();
+
+        // Realizar una petición AJAX al servidor para obtener los datos del usuario
+		$.ajax({
+                url: 'sessionStart.php',
+                type: 'GET',
+                dataType: 'json',
+                success: function(response) {
+                    // Actualizar los elementos HTML con los datos del usuario
+                    $('.nav-lateral-avatar figcaption').html(response.userName +
+                        '<br><small class="roboto-condensed-light">' + response.nombre + '</small>');
+                   
+                },
+                error: function(xhr, status, error) {
+                    console.log(xhr.responseText);
+                    // Manejar el error de la petición AJAX
+                    alert('Error al obtener los datos del usuario.');
+                    window.location.href = 'index.html';
+                }
+            });
+
+    });
+    </script>
+
+	<script src="./js/main.js" ></script>
+
+	<script>
+
+        function llenarTabla() {
+            $.ajax({
+                url: 'emple/consultar-empleado.php',
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    var tablaEmpleados = '';
+                    $.each(data, function(i, empleado) {
+                        tablaEmpleados += '<tr class="text-center">';
+                        tablaEmpleados += '<td>' + empleado.id + '</td>';
+                        tablaEmpleados += '<td>' + empleado.nombres + '</td>';
+                        tablaEmpleados += '<td>' + empleado.apellidos + '</td>';
+                        tablaEmpleados += '<td>' + empleado.telefono + '</td>';
+                        tablaEmpleados += '<td>' + empleado.tipoDocumento + '</td>';
+                        tablaEmpleados += '<td>' + empleado.numeroDocumento + '</td>';
+                        tablaEmpleados += '<td>';
+                        tablaEmpleados += '<button type="button" class="btn btn-success" id="editar" data-toggle="modal" data-target="#ModalModificar"  onclick="modificar(' + empleado.id + ')"><i class="fas fa-pencil-alt"></i></button>';
+                        tablaEmpleados += '<button type="button" class="btn btn-warning" onclick="eliminar(' + empleado.id + ')"><i class="far fa-trash-alt"></i></button>';
+                        tablaEmpleados += '</td>';
+                        tablaEmpleados += '</tr>';
+                    });
+                    $('#tabla-empleados-body').html(tablaEmpleados);
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+        }
+
+        function guardar() {
+            // Obtener los valores de los campos de entrada
+            var nombres = document.getElementById('nombres').value || "Indefinido";
+            var apellidos = document.getElementById('apellidos').value || "Indefinido";
+            var telefono = document.getElementById('telefono').value || "Indefinido";
+            var tipoDocumento = document.getElementById('tipoDocumento').value || "Indefinido";
+            var numeroDocumento = document.getElementById('numeroDocumento').value || "Indefinido";
+
+            if (nombres != "Indefinido" && apellidos != "Indefinido" && telefono != "Indefinido" && tipoDocumento != "Indefinido" && numeroDocumento != "Indefinido") {
+
+                // Crear un objeto FormData y agregar los valores de los campos de entrada
+                var formData = new FormData();
+                formData.append('nombres', nombres);
+                formData.append('apellidos', apellidos);
+                formData.append('telefono', telefono);
+                formData.append('tipoDocumento', tipoDocumento);
+                formData.append('numeroDocumento', numeroDocumento);
+
+                // Crear una solicitud AJAX
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', 'emple/registrar-empleado.php', true);
+                xhr.onload = function() {
+                    if (xhr.status === 200) {
+                        // La solicitud se completó con éxito
+                        //alert("La Categoria ha sido registrado exitosamente.");
+                        console.log(xhr.responseText);
+                        location.reload();
+                    } else {
+                        // Se produjo un error al procesar la solicitud
+                        console.log("error al procesar la solicitud");
+                        console.error(xhr.statusText);
+                    }
+                };
+                xhr.onerror = function() {
+                    // Se produjo un error de red u otro error al realizar la solicitud
+                    console.log("error de red");
+                    console.error(xhr.statusText);
+                };
+                xhr.send(formData);
+            } else {
+                alert("Asegurate de llenar todas las casillas.");
+            }
+        }
+
+         // Función para eliminar un usuario
+         function eliminar(idEmpleado) {
+            Swal.fire({
+                title: 'Seguro de eliminar a este Empleado !?',
+                text: "Estas seguro de eliminar permanentemente a este Empleado.",
+                type: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Si, eliminar!',
+                cancelButtonText: 'No, cancelar'
+            }).then((result) => {
+                if (result.value) {
+                    $.ajax({
+                        url: 'emple/eliminar-empleado.php',
+                        type: 'GET',
+                        data: {
+                            idEmpleado: idEmpleado
+                        },
+                        success: function(response) {
+                            // Lógica después de eliminar el usuario
+                            console.log('Empleado eliminado');
+                            //alert("El usuario ha sido eliminado exitosamente.");
+                            location.reload(); // Recarga la página
+                        },
+                        error: function(error) {
+                            console.log(error);
+                            alert("Identificador de Empleado no proporcionado.");
+                        }
+                    });
+                }
+            });
+        }
+
+        // Función para modificar un usuario
+        function modificar(idEmpleado) {
+            $.ajax({
+                url: 'emple/consultar-empleado.php',
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    $.each(data, function(i, empleado) {
+                        if (empleado.id == idEmpleado) {
+
+                            $('#id').val(empleado.id);
+                            $('#nombresM').val(empleado.nombres);
+                            $('#apellidosM').val(empleado.apellidos);
+                            $('#telefonoM').val(empleado.telefono);
+
+                            var tipoSelect = $('#tipoDocumentoM');
+                            if (empleado.tipoDocumento == 'Tarjeta de Identidad') {
+                                var option = tipoSelect.find('option[value="Tarjeta de Identidad"]');
+                            } else if (empleado.tipoDocumento == 'Cedula de Ciudadania') {
+                                var option = tipoSelect.find('option[value="Cedula de Ciudadania"]');
+                            } else {
+                                var option = tipoSelect.find('option[value="Indefinido"]');
+                            }
+
+                            if (option.length > 0) {
+                                // Seleccionar la opción y actualizar el texto visible
+                                //categoriaSelect.val(option.val()).selectpicker('refresh');
+                                tipoSelect.val(option.val());
+                                //categoriaSelect.select('update');
+                            } else {
+                                console.log('No se encontró el tipo de documento ' + empleado.tipoDocumento);
+                            }
+
+                            $('#numeroDocumentoM').val(empleado.numeroDocumento);
+                        }
+                    });
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+        }
+
+        function guardarModdificacion() {
+            // Obtener el idUsuario
+            var idEmpleado= document.getElementById('id').value || "0";
+
+            // Obtener los valores de los campos de entrada
+            var nombres = document.getElementById('nombresM').value || "Indefinido";
+            var apellidos = document.getElementById('apellidosM').value || "Indefinido";
+            var telefono = document.getElementById('telefonoM').value || "Indefinido";
+            var tipoDocumento = document.getElementById('tipoDocumentoM').value || "Indefinido";
+            var numeroDocumento = document.getElementById('numeroDocumentoM').value || "Indefinido";
+
+            // Crear un objeto FormData y agregar los valores de los campos de entrada
+            var formData = new FormData();
+            formData.append('idEmpleado', idEmpleado);
+            formData.append('nombres', nombres);
+            formData.append('apellidos', apellidos);
+            formData.append('telefono', telefono);
+            formData.append('tipoDocumento', tipoDocumento);
+            formData.append('numeroDocumento', numeroDocumento);
+
+            // Crear una solicitud AJAX
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'emple/modificar-empleado.php', true);
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    // La solicitud se completó con éxito
+                    //alert("La Membresia ha sido modificado exitosamente.");
+                    console.log(xhr.responseText);
+                    location.reload();
+                } else {
+                    // Se produjo un error al procesar la solicitud
+                    console.log("Error al procesar la solicitud");
+                    console.error(xhr.statusText);
+                }
+            };
+            xhr.onerror = function() {
+                // Se produjo un error de red u otro error al realizar la solicitud
+                console.log("Error de red");
+                console.error(xhr.statusText);
+            };
+            xhr.send(formData);
+        }
+
+        // Obtener referencias a los elementos de búsqueda y filtro
+        const searchInput = document.getElementById('searchInput');
+
+        // Agregar eventos de escucha para búsqueda y filtro
+        searchInput.addEventListener('input', handleSearchFilter);
+
+        function handleSearchFilter() {
+            const searchText = searchInput.value.toLowerCase();
+            const rows = document.querySelectorAll('#tabla-empleados-body tr');
+
+            rows.forEach((row) => {
+                const id = row.querySelector('td:nth-child(1)').innerText.toLowerCase();
+                const nombres = row.querySelector('td:nth-child(2)').innerText.toLowerCase();
+                const apellidos = row.querySelector('td:nth-child(3)').innerText.toLowerCase();
+                const telefono = row.querySelector('td:nth-child(4)').innerText.toLowerCase();
+                const tipoDocumento = row.querySelector('td:nth-child(5)').innerText.toLowerCase();
+                const numeroDocumento = row.querySelector('td:nth-child(6)').innerText.toLowerCase();
+
+                if (
+                    (id.includes(searchText) || nombres.includes(searchText) || apellidos.includes(searchText) ||
+                    telefono.includes(searchText) || tipoDocumento.includes(searchText) || numeroDocumento.includes(searchText)) 
+                ) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+
+	</script>
+
+</body>
+</html>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<title>Login</title>
+
+	<!-- Normalize V8.0.1 -->
+	<link rel="stylesheet" href="./css/normalize.css">
+
+	<!-- Bootstrap V4.3 -->
+	<link rel="stylesheet" href="./css/bootstrap.min.css">
+
+	<!-- Bootstrap Material Design V4.0 -->
+	<link rel="stylesheet" href="./css/bootstrap-material-design.min.css">
+
+	<!-- Font Awesome V5.9.0 -->
+	<link rel="stylesheet" href="./css/all.css">
+
+	<!-- Sweet Alerts V8.13.0 CSS file -->
+	<link rel="stylesheet" href="./css/sweetalert2.min.css">
+
+	<!-- Sweet Alert V8.13.0 JS file -->
+	<script src="./js/sweetalert2.min.js" ></script>
+
+	<!-- jQuery Custom Content Scroller V3.1.5 -->
+	<link rel="stylesheet" href="./css/jquery.mCustomScrollbar.css">
+	
+	<!-- General Styles -->
+	<link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+
+	<div class="login-container">
+		<div class="login-content">
+			<p class="text-center">
+				<i class="fas fa-user-circle fa-5x"></i>
+			</p>
+			<p class="text-center">
+				Inicia sesión con tu cuenta
+			</p>
+			<form id="formLogin" action="login.php">
+				<div class="form-group">
+					<label for="UserName" class="bmd-label-floating"><i class="fas fa-user-secret"></i> &nbsp; Usuario</label>
+					<input type="text" class="form-control" id="userName" name="usuario">
+				</div>
+				<div class="form-group">
+					<label for="UserPassword" class="bmd-label-floating"><i class="fas fa-key"></i> &nbsp; Contraseña</label>
+					<input type="password" class="form-control" id="password" name="clave" >
+				</div>
+				<a class="btn-login text-center" id="login">LOGIN</a>
+			</form>
+		</div>
+	</div>
+
+	
+	<!--=============================================
+	=            Include JavaScript files           =
+	==============================================-->
+	<!-- jQuery V3.4.1 -->
+	<script src="./js/jquery-3.4.1.min.js" ></script>
+
+	<!-- popper -->
+	<script src="./js/popper.min.js" ></script>
+
+	<!-- Bootstrap V4.3 -->
+	<script src="./js/bootstrap.min.js" ></script>
+
+	<!-- jQuery Custom Content Scroller V3.1.5 -->
+	<script src="./js/jquery.mCustomScrollbar.concat.min.js" ></script>
+
+	<!-- Bootstrap Material Design V4.0 -->
+	<script src="./js/bootstrap-material-design.min.js" ></script>
+	<script>$(document).ready(function() { $('body').bootstrapMaterialDesign(); });</script>
+
+	<script src="./js/main.js" ></script>
+
+	<script>
+        $(document).ready(function() {
+            $('body').bootstrapMaterialDesign();
+            carga();
+        });
+
+        function carga() {
+            $.ajax({
+                url: 'sessionStart.php',
+                type: 'GET',
+                data: {
+                    logout: true
+                }, // Envía un parámetro adicional para indicar el cierre de sesión
+                success: function(response) {
+                    // Redirigir al usuario a index.html después de cerrar sesión
+                    //window.location = "index.html";
+                },
+                error: function(xhr, status, error) {
+                    console.log(xhr.responseText);
+                    // Manejar el error de la petición AJAX
+                    alert('Error al cerrar sesión.');
+                }
+            });
+        }
+
+        // Función para enviar el formulario de inicio de sesión
+        function login() {
+            // Obtener los valores de usuario y contraseña
+            var userName = $('#userName').val();
+            var password = $('#password').val();
+
+            if (userName !== "" && password !== "") {
+
+                // Crear un objeto FormData para enviar los datos del formulario
+                var formData = new FormData();
+                formData.append('userName', userName);
+                formData.append('password', password);
+                //window.location.href = 'home.html';
+                // Realizar la petición AJAX al archivo login.php
+                $.ajax({
+                    url: 'login.php',
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        // Manejar la respuesta del servidor
+                        console.log(response);
+                        if (response) {
+                            window.location.href = 'home.html';
+                        } else {
+                            alert("Credenciales incorrectas.");
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        // Manejar los errores de la petición
+                        console.log(xhr.responseText);
+                    }
+                });
+
+            } else {
+
+                // Obtener el formulario por su ID
+                var form = document.getElementById('formLogin');
+
+                // Cambiar el valor del atributo action del formulario
+                form.action = '';
+
+                alert("Por favor LLenar todos los campos.");
+            }
+
+        }
+
+        // Función para manejar el evento keydown en el input de contraseña
+        function handlePasswordKeyDown(event) {
+            if (event.keyCode === 13) {
+                // Si la tecla presionada es Enter, activar el botón de login
+                document.getElementById('login').click();
+            }
+        }
+
+        // Agregar el evento keydown al input de contraseña
+        $('#password').keydown(handlePasswordKeyDown);
+
+        // Asignar el evento click al botón de login
+        $('.btn-login').click(function(e) {
+            e.preventDefault(); // Prevenir el comportamiento por defecto del botón
+            login(); // Llamar a la función de inicio de sesión
+        });
+	</script>
+</body>
+</html>

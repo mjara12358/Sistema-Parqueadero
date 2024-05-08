@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<title>Lista administradores</title>
+
+	<!-- Normalize V8.0.1 -->
+	<link rel="stylesheet" href="./css/normalize.css">
+
+	<!-- Bootstrap V4.3 -->
+	<link rel="stylesheet" href="./css/bootstrap.min.css">
+
+	<!-- Bootstrap Material Design V4.0 -->
+	<link rel="stylesheet" href="./css/bootstrap-material-design.min.css">
+
+	<!-- Font Awesome V5.9.0 -->
+	<link rel="stylesheet" href="./css/all.css">
+
+	<!-- Sweet Alerts V8.13.0 CSS file -->
+	<link rel="stylesheet" href="./css/sweetalert2.min.css">
+
+	<!-- Sweet Alert V8.13.0 JS file-->
+	<script src="./js/sweetalert2.min.js" ></script>
+
+	<!-- jQuery Custom Content Scroller V3.1.5 -->
+	<link rel="stylesheet" href="./css/jquery.mCustomScrollbar.css">
+	
+	<!-- General Styles -->
+	<link rel="stylesheet" href="./css/style.css">
+
+	<style>
+		
+		.user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+        .user-avatar img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+
+        /* Estilo para ocultar la subfila por defecto */
+        .subfila {
+            display: none;
+            text-align: center;
+        }
+
+        /* Estilo para resaltar texto en verde */
+        .activo {
+            color: white;
+            background-color: rgb(28, 85, 17);
+            border-radius: 10px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .vencido {
+            color: white;
+            background-color: rgb(108, 12, 12);
+            border-radius: 10px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .indefinido {
+            color: white;
+            background-color: rgb(114, 109, 10);
+            border-radius: 10px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Estilos para la ventana flotante */
+        .ventana-flotante {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #06030D;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+            z-index: 9999;
+        }
+
+        .ventana-flotante-agregar {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #253556;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+            z-index: 9999;
+        }
+
+        .id {
+            display: none;
+        }
+
+        #divMembrasiaAsistencia {
+            display: none;
+        }
+
+        .table-busqueda {
+            background-color: rgb(92, 22, 32);
+            /* Cambia #ff0000 por el color deseado */
+            border-radius: 10px;
+            /* Aplica bordes redondos */
+        }
+
+        .custom-table-responsive {
+            max-height: 100px;
+            /* Ajusta la altura según tus necesidades */
+        }
+
+        .custom-input {
+            height: 30px;
+            width: 20%;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: flex-end;
+            justify-content: flex-start;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            padding: 5px;
+            height: 40px;
+            /* Ajusta la altura deseada */
+        }
+
+        .search-bar input {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 5px;
+            height: 30px;
+            margin-top: auto;
+            /* Empujar el input hacia abajo */
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 40px;
+            height: 25px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: .4s;
+            transition: .4s;
+            border-radius: 17px;
+            /* Ajusta el valor según tus preferencias */
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+            border-radius: 50%;
+            /* Ajusta el valor según tus preferencias */
+        }
+
+        input:checked+.slider {
+            background-color: #D51944;
+        }
+
+        input:focus+.slider {
+            box-shadow: 0 0 1px #D51944;
+        }
+
+        input:checked+.slider:before {
+            -webkit-transform: translateX(26px);
+            -ms-transform: translateX(26px);
+            transform: translateX(16px);
+        }
+
+        .slider.round {
+            border-radius: 34px;
+        }
+
+        .slider.round:before {
+            border-radius: 50%;
+        }
+
+        .estilo-personalizado {
+            background-color: #ffffff;
+            color: #000000;
+        }
+
+        .search-bar-personalizado {
+            display: flex;
+            align-items: flex-end;
+            justify-content: flex-start;
+            border: 1px solid #000000;
+            border-radius: 20px;
+            padding: 5px;
+            height: 40px;
+            /* Ajusta la altura deseada */
+        }
+
+        .letras-negras {
+            color: #000000;
+        }
+
+        .letras-blancas {
+            color: #ffffff;
+        }
+
+        /*  Page content */
+        .navbar-info-pers {
+            height: 50px;
+            border-bottom: 1px solid rgba(250, 30, 78, .3);
+            text-align: right;
+            padding-right: 10px;
+        }
+
+        .navbar-info-pers a {
+            color: var(--form-color);
+            height: 50px;
+            min-width: 40px;
+            text-align: center;
+            line-height: 50px;
+            display: inline-block;
+            transition: all .2s ease-out;
+            user-select: none;
+        }
+
+        .navbar-info-pers a:hover {
+            color: #D51944;
+            background-image: radial-gradient(circle, rgba(250, 30, 78, .1), transparent 80%);
+        }
+
+        .navbar-info-pers a:active,
+        .navbar-info-pers a:focus {
+            outline: none;
+        }
+
+        /*----------  Page nav tabs  ----------*/
+        .page-nav-tabs-pers {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+
+        .page-nav-tabs-pers li,
+        .page-nav-tabs-pers li a {
+            height: 40px;
+            line-height: 40px;
+        }
+
+        .page-nav-tabs-pers li {
+            margin: 5px;
+        }
+
+        .page-nav-tabs-pers li a {
+            color: #004f45;
+            font-size: 20px;
+            min-width: 200px;
+            width: auto;
+            display: block;
+            text-align: center;
+            user-select: none;
+            transition: all .2s ease-in-out;
+        }
+
+        .page-nav-tabs-pers li a.active {
+            color: #D51944;
+            cursor: none;
+            pointer-events: none;
+        }
+
+        .page-nav-tabs-pers li a:hover {
+            text-decoration: none;
+            color: #D51944;
+            background-image: linear-gradient(to right, transparent, rgba(250, 30, 78, .1) 50%, transparent);
+        }
+
+        .table-dark-pers,
+        .table {
+            background-color: transparent;
+        }
+
+        .table-dark-pers {
+            border: 1px solid #D51944;
+        }
+
+        .table-dark-pers thead tr {
+            background-color: #D51944;
+        }
+
+        .table-dark-pers td,
+        .table-dark-pers thead th,
+        .table-dark-pers th {
+            border: none;
+        }
+
+        .table-dark-pers tr:hover {
+            color: #D51944;
+            background-image: linear-gradient(to right, transparent, rgba(97, 12, 54, 0.1) 85%, transparent);
+        }
+
+        .inp-form,
+        .inp-form:active,
+        .inp-form:focus {
+            color: #000000;
+        }
+
+        .inp-form-pers,
+        .inp-form-pers:active,
+        .inp-form-pers:focus {
+            color: #000000;
+        }
+
+	</style>
+
+</head>
+<body>
+	
+	<!-- Main container -->
+	<main class="full-box main-container">
+		<!-- Nav lateral -->
+		<section class="full-box nav-lateral">
+			<div class="full-box nav-lateral-bg show-nav-lateral"></div>
+			<div class="full-box nav-lateral-content">
+				<figure class="full-box nav-lateral-avatar">
+					<i class="far fa-times-circle show-nav-lateral"></i>
+					<img src="./assets/avatar/Avatar.png" class="img-fluid" alt="Avatar">
+					<figcaption class="roboto-medium text-center" id="userSession">
+						- <br><small class="roboto-condensed-light">-</small>
+					</figcaption>
+				</figure>
+				<div class="full-box nav-lateral-bar"></div>
+				<nav class="full-box nav-lateral-menu">
+					<ul>
+						<li>
+							<a href="home.html"><i class="fab fa-dashcube fa-fw"></i> &nbsp; Dashboard</a>
+						</li>
+
+						<li>
+							<a href="emple-list.html"><i class="fas fa-users fa-fw"></i> &nbsp; Lista de Empleados</a>
+						</li>
+
+						<li>
+							<a href="cars-list.html"><i class="fas fa-car fa-fw"></i> &nbsp; Lista de Vehiculos</a>
+						</li>
+
+						<li>
+							<a href="admin-list.html"><i class="fas fa-user-secret fa-fw"></i> &nbsp; Administradores</a>
+						</li>
+
+						<li>
+							<a href="ticket-list.html"><i class="fas fa-ticket-alt fa-fw"></i> &nbsp; Tickets</a>
+						</li>
+
+						<li>
+							<a href="tarifa-list.html"><i class="fas fa-comment-dollar fa-fw"></i> &nbsp; Tarifas</a>
+						</li>
+					</ul>
+				</nav>
+			</div>
+		</section>
+
+		<!-- Page content -->
+		<section class="full-box page-content">
+			<nav class="full-box navbar-info">
+				<a href="#" class="float-left show-nav-lateral">
+					<i class="fas fa-exchange-alt"></i>
+				</a>
+				<!-- <a href="user-update.html">
+					<i class="fas fa-user-cog"></i>
+				</a> -->
+				<a href="#" class="btn-exit-system">
+					<i class="fas fa-power-off"></i>
+				</a>
+			</nav>
+
+			<!-- Page header -->
+			<div class="full-box page-header">
+				<h3 class="text-left">
+					<i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE ADMINS
+				</h3>
+				<p class="text-justify">
+					Bienvenido a la sección de Administradores del Parqueadero. Aquí encontrarás una lista detallada de todos 
+					nuestros administradores de parqueadero, con acceso a toda su información relevante. Además, te ofrecemos 
+					la posibilidad de agregar nuevos administradores, editar la información existente o eliminar administradores 
+					de manera ágil y sencilla, todo desde una única ubicación. En nuestra constante búsqueda de brindarte una 
+					experiencia de usuario eficiente y segura, esta sección te proporcionará las herramientas necesarias para 
+					mantener un control total sobre los responsables de la gestión del parqueadero.
+				</p>
+			</div>
+			
+			<div class="container-fluid">
+				<ul class="full-box list-unstyled page-nav-tabs">
+					<li>
+						<button type="button" id="openModalButton" style="display: none;" data-toggle="modal" data-target="#ModalAgregar"></button>
+						<a href="javascript:void(0);" id="botonAgregar" onclick="document.getElementById('openModalButton').click();">
+							<i class="fas fa-plus fa-fw"></i> &nbsp; NUEVO ADMIN
+						</a>
+					</li>
+					<li>
+						<a class="active" href="user-list.html"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE ADMINS</a>
+					</li>
+				</ul>	
+			</div>
+			
+			<!-- Content -->
+			<div class="container-fluid">
+				<!-- Barra de busqueda -->
+				<div class="form-group search-bar" id="buscador">
+					<div class="input-group" style="width: 100%">
+						<div class="input-group-prepend" style="margin-right: 10px;">
+							<span class="input-group-text"><i class="fas fa-search"></i></span>
+						</div>
+						<input type="text" class="form-control custom-input inp-form" id="searchInput"
+							placeholder="Buscar">
+					</div>
+				</div>
+				<div class="table-responsive">
+					<table class="table table-dark table-sm">
+						<thead>
+							<tr class="text-center roboto-medium">
+								<th>#</th>
+								<th>NOMBRE</th>
+								<th>CELULAR</th>
+								<th>TIPO DE DOCUMENTO</th>
+								<th>NUMERO DE DOCUMENTO</th>
+								<th>USUARIO</th>
+								<th id="contrasena">CONTRASEÑA</th>
+								<th id="acciones">ACCIONES</th>
+							</tr>
+						</thead>
+						<tbody id="tabla-admin-body">
+						</tbody>
+					</table>
+				</div>
+				<nav aria-label="Page navigation example">
+					<ul class="pagination justify-content-center">
+						<li class="page-item disabled">
+							<a class="page-link" href="#" tabindex="-1">Previous</a>
+						</li>
+						<li class="page-item"><a class="page-link" href="#">1</a></li>
+						<li class="page-item"><a class="page-link" href="#">2</a></li>
+						<li class="page-item"><a class="page-link" href="#">3</a></li>
+						<li class="page-item">
+							<a class="page-link" href="#">Next</a>
+						</li>
+					</ul>
+				</nav>
+			</div>
+
+            <!-- MODAL AGREGAR -->
+            <div class="modal fade" id="ModalAgregar" tabindex="-1" role="dialog" aria-labelledby="ModalItem" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="ModalItem">Agregar Admin</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="container-fluid">
+								<form action="" class="form-neon" autocomplete="off">
+									<fieldset>
+										<legend><i class="far fa-address-card"></i> &nbsp; Informacion del Admin</legend>
+										<div class="container-fluid">
+											<div class="row">
+												<div class="col-12 col-md-8">
+													<div class="form-group">
+														<label for="usuario_nombre" class="bmd-label-floating">Nombre</label>
+														<input type="text" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,35}" class="form-control" name="nombre" id="nombre" maxlength="35">
+													</div>
+												</div>
+												<div class="col-12 col-md-4">
+													<div class="form-group">
+														<label for="usuario_telefono" class="bmd-label-floating">Celular</label>
+														<input type="text" pattern="[0-9()+]{1,20}" class="form-control" name="celular" id="celular" maxlength="20">
+													</div>
+												</div>
+												<div class="col-12 col-md-6">
+													<div class="form-group">
+														<select class="form-control" name="tipoDocumento" id="tipoDocumento">
+															<option value="" selected="" disabled="">Seleccione Tipo de Documento</option>
+															<option value="Tarjeta de Identidad">Tarjeta de Identidad</option>
+															<option value="Cedula de Ciudadania">Cedula de Ciudadania</option>
+														</select>	
+													</div>
+												</div>
+												<div class="col-12 col-md-6">
+													<div class="form-group">
+														<label for="usuario_direccion" class="bmd-label-floating">Numero de Documento</label>
+														<input type="text" pattern="[a-zA-Z0-99áéíóúÁÉÍÓÚñÑ()# ]{1,190}" class="form-control" name="documento" id="documento" maxlength="190">
+													</div>
+												</div>
+											</div>
+										</div>
+									</fieldset>
+									<br>
+									<fieldset>
+										<legend><i class="fas fa-user-lock"></i> &nbsp; Información de la cuenta</legend>
+										<div class="container-fluid">
+											<div class="row">
+												<div class="col-12 col-md-4">
+													<div class="form-group">
+														<label for="usuario_usuario" class="bmd-label-floating">Nombre de usuario</label>
+														<input type="text" pattern="[a-zA-Z0-9]{1,35}" class="form-control" name="userName" id="userName" maxlength="35">
+													</div>
+												</div>
+												<div class="col-12 col-md-4">
+													<div class="form-group">
+														<label for="usuario_clave_1" class="bmd-label-floating">Contraseña</label>
+														<input type="password" class="form-control" name="contrasena1" id="contrasena1" maxlength="200">
+													</div>
+												</div>
+												<div class="col-12 col-md-4">
+													<div class="form-group">
+														<label for="usuario_clave_2" class="bmd-label-floating">Repetir contraseña</label>
+														<input type="password" class="form-control" name="contrasena2" id="contrasena2" maxlength="200">
+													</div>
+												</div>
+											</div>
+										</div>
+									</fieldset>
+								</form>
+								<p class="text-center" style="margin-top: 40px;">
+									<button type="reset" class="btn btn-raised btn-secondary btn-sm" data-dismiss="modal"><i class="fas fa-arrow-left"></i> &nbsp; Cancelar</button>
+									&nbsp; &nbsp;
+									<button type="submit" class="btn btn-raised btn-info btn-sm" onclick="guardar()"><i class="far fa-save"></i> &nbsp; GUARDAR</button>
+								</p>
+							</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+			<!-- MODAL MODIFICAR -->
+			<div class="modal fade" id="ModalModificar" tabindex="-1" role="dialog" aria-labelledby="ModalItem" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="ModalItem">Modificar Vehiculo</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="container-fluid">
+                                <input type="text" pattern="[0-9]{1,20}" class="form-control id" id="id" maxlength="25">
+								<form action="" class="form-neon" autocomplete="off">
+                                    <fieldset>
+                                        <legend><i class="far fa-address-card"></i> &nbsp; Informacion del Admin</legend>
+										<div class="container-fluid">
+											<div class="row">
+												<div class="col-12 col-md-8">
+													<div class="form-group">
+														<label for="usuario_nombre" class="label">Nombre</label>
+														<input type="text" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,35}" class="form-control" name="nombreM" id="nombreM" maxlength="35">
+													</div>
+												</div>
+												<div class="col-12 col-md-4">
+													<div class="form-group">
+														<label for="usuario_telefono" class="label">Celular</label>
+														<input type="text" pattern="[0-9()+]{1,20}" class="form-control" name="celularM" id="celularM" maxlength="20">
+													</div>
+												</div>
+												<div class="col-12 col-md-6">
+													<div class="form-group">
+														<select class="form-control" name="tipoDocumentoM" id="tipoDocumentoM">
+															<option value="" selected="" disabled="">Seleccione Tipo de Documento</option>
+															<option value="Tarjeta de Identidad">Tarjeta de Identidad</option>
+															<option value="Cedula de Ciudadania">Cedula de Ciudadania</option>
+														</select>	
+													</div>
+												</div>
+												<div class="col-12 col-md-6">
+													<div class="form-group">
+														<label for="usuario_direccion" class="label">Numero de Documento</label>
+														<input type="text" pattern="[a-zA-Z0-99áéíóúÁÉÍÓÚñÑ()# ]{1,190}" class="form-control" name="documentoM" id="documentoM" maxlength="190">
+													</div>
+												</div>
+											</div>
+										</div>
+									</fieldset>
+									<br>
+									<fieldset>
+										<legend><i class="fas fa-user-lock"></i> &nbsp; Información de la cuenta</legend>
+										<div class="container-fluid">
+											<div class="row">
+												<div class="col-12 col-md-4">
+													<div class="form-group">
+														<label for="usuario_usuario" class="label">Nombre de usuario</label>
+														<input type="text" pattern="[a-zA-Z0-9]{1,35}" class="form-control" name="userNameM" id="userNameM" maxlength="35">
+													</div>
+												</div>
+												<div class="col-12 col-md-4">
+													<div class="form-group">
+														<label for="usuario_clave_1" class="label">Contraseña</label>
+														<input type="password" class="form-control" name="contrasena1M" id="contrasena1M" maxlength="200">
+													</div>
+												</div>
+												<div class="col-12 col-md-4">
+													<div class="form-group">
+														<label for="usuario_clave_2" class="label">Repetir contraseña</label>
+														<input type="password" class="form-control" name="contrasena2M" id="contrasena2M" maxlength="200">
+													</div>
+												</div>
+											</div>
+										</div>
+                                    </fieldset>
+                                </form>
+								<p class="text-center" style="margin-top: 40px;">
+									<button type="reset" class="btn btn-raised btn-secondary btn-sm" data-dismiss="modal"><i class="fas fa-arrow-left"></i> &nbsp; Cancelar</button>
+									&nbsp; &nbsp;
+									<button type="submit" class="btn btn-raised btn-success btn-sm" onclick="guardarModificacion()"><i class="fas fa-sync-alt"></i> &nbsp; GUARDAR</button>
+								</p>
+							</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+		</section>
+	</main>
+	
+	<!--=============================================
+	=            Include JavaScript files           =
+	==============================================-->
+	<!-- jQuery V3.4.1 -->
+	<script src="./js/jquery-3.4.1.min.js" ></script>
+
+	<!-- popper -->
+	<script src="./js/popper.min.js" ></script>
+
+	<!-- Bootstrap V4.3 -->
+	<script src="./js/bootstrap.min.js" ></script>
+
+	<!-- jQuery Custom Content Scroller V3.1.5 -->
+	<script src="./js/jquery.mCustomScrollbar.concat.min.js" ></script>
+
+	<!-- Bootstrap Material Design V4.0 -->
+	<script src="./js/bootstrap-material-design.min.js" ></script>
+	<script>$(document).ready(function() { $('body').bootstrapMaterialDesign();
+		llenarTabla();
+
+		// Realizar una petición AJAX al servidor para obtener los datos del usuario
+		$.ajax({
+                url: 'sessionStart.php',
+                type: 'GET',
+                dataType: 'json',
+                success: function(response) {
+                    // Actualizar los elementos HTML con los datos del usuario
+                    $('.nav-lateral-avatar figcaption').html(response.userName +
+                        '<br><small class="roboto-condensed-light">' + response.nombre + '</small>');
+                   
+                },
+                error: function(xhr, status, error) {
+                    console.log(xhr.responseText);
+                    // Manejar el error de la petición AJAX
+                    alert('Error al obtener los datos del usuario.');
+                    window.location.href = 'index.html';
+                }
+            });
+	});</script>
+
+	<script src="./js/main.js" ></script>
+
+	<script>
+		// Función para desplegar la ventana flotante
+        function mostrarVentanaFlotanteAgregar() {
+            // Mostrar el div "ventana-flotante" si está oculto
+            $('.ventana-flotante-agregar').show();
+
+           
+            // Mostrar la ventana flotante en el cuerpo del documento
+            ventanaFlotante.appendTo('body');
+        }
+
+        function cerrarVentanaFlotanteAgregar() {
+            $('.ventana-flotante-agregar').hide();
+        }
+
+		function llenarTabla() {
+
+			// Realizar una petición AJAX al servidor para obtener los datos del usuario
+			$.ajax({
+					url: 'sessionStart.php',
+					type: 'GET',
+					dataType: 'json',
+					success: function(response) {
+						
+						$.ajax({
+							url: 'admin/consultar-admin.php',
+							type: 'GET',
+							dataType: 'json',
+							success: function(data) {
+								var tablaAdmin = '';
+								$.each(data, function(i, admin) {
+
+									tablaAdmin += '<tr class="text-center">';
+									tablaAdmin += '<td>' + admin.id + '</td>';
+									tablaAdmin += '<td>' + admin.nombre + '</td>';
+									tablaAdmin += '<td>' + admin.celular + '</td>';
+									tablaAdmin += '<td>' + admin.tipoDocumento + '</td>';
+									tablaAdmin += '<td>' + admin.documento + '</td>';
+									tablaAdmin += '<td>' + admin.userName + '</td>';
+									if(response.userName == "admin") {
+										tablaAdmin += '<td>' + admin.contrasena + '</td>';
+										tablaAdmin += '<td>';
+										if(admin.userName == "admin") {
+											tablaAdmin += '<button type="button" class="btn btn-success" id="editarAdmin" data-toggle="modal" data-target="#ModalModificar" onclick="modificar(' + admin.id + ')"><i class="fas fa-pencil-alt"></i></button>';
+										}else {
+											tablaAdmin += '<button type="button" class="btn btn-success" id="editarAdmin" data-toggle="modal" data-target="#ModalModificar" onclick="modificar(' + admin.id + ')"><i class="fas fa-pencil-alt"></i></button>';
+											tablaAdmin += '<button type="button" class="btn btn-warning" onclick="eliminar(' + admin.id + ')"><i class="far fa-trash-alt"></i></button>';
+										}
+										tablaAdmin += '</td>';
+									} else {
+										// Ocultar la columna de contraseña y el botónAgregar
+										$('#contrasena').hide();
+										$('#acciones').hide();
+                						$('#botonAgregar').hide();
+									}
+									tablaAdmin += '</tr>';
+								});
+								$('#tabla-admin-body').html(tablaAdmin);
+							},
+							error: function(error) {
+								console.log(error);
+							}
+						});
+					
+					},
+					error: function(xhr, status, error) {
+						console.log(xhr.responseText);
+						// Manejar el error de la petición AJAX
+						alert('Error al llenar los datos de los admins.');
+					}
+				});
+		}
+
+		function guardar() {
+			var nombre = document.getElementById('nombre').value || "Indefinido";
+			var celular = document.getElementById('celular').value || "Indefinido";
+			var tipoDocumento = document.getElementById('tipoDocumento').value || "Indefinido";
+			var documento = document.getElementById('documento').value || "Indefinido";
+			var userName = document.getElementById('userName').value || "Indefinido";
+			var contrasena1 = document.getElementById('contrasena1').value || "Indefinido";
+			var contrasena2 = document.getElementById('contrasena2').value || "Indefinido";
+
+			if (nombre != "Indefinido" && celular != "Indefinido" && tipoDocumento != "Indefinido" && documento != "Indefinido"
+			&& userName != "Indefinido" && contrasena1 != "Indefinido" && contrasena2 != "Indefinido") {
+				
+				if(contrasena1 == contrasena2) {
+					var contrasena = contrasena1;
+
+					var formData = new FormData();
+					formData.append('nombre', nombre);
+					formData.append('celular', celular);
+					formData.append('tipoDocumento', tipoDocumento);
+					formData.append('documento', documento);
+					formData.append('userName', userName);
+					formData.append('contrasena', contrasena);
+
+					var xhr = new XMLHttpRequest();
+					xhr.open('POST', 'admin/registrar-admin.php', true);
+					xhr.onload = function() {
+						if (xhr.status === 200) {
+							console.log(xhr.responseText);
+							location.reload();
+						} else {
+							console.log("Error al procesar la solicitud");
+							console.error(xhr.statusText);
+						}
+					};
+					xhr.onerror = function() {
+						console.log("Error de red");
+						console.error(xhr.statusText);
+					};
+					xhr.send(formData);
+				} else {
+					alert("Las contraseñas no coinciden.");
+				}
+			} else {
+				alert("Asegurate de llenar todas las casillas.");
+			}
+			
+		}
+
+		function eliminar(idAdmin) {
+			Swal.fire({
+				title: 'Seguro de eliminar a este Admin !?',
+				text: "Estas seguro de eliminar permanentemente a este Admin.",
+				type: 'question',
+				showCancelButton: true,
+				confirmButtonColor: '#d33',
+				cancelButtonColor: '#3085d6',
+				confirmButtonText: 'Si, eliminar!',
+				cancelButtonText: 'No, cancelar'
+			}).then((result) => {
+				if (result.value) {
+					$.ajax({
+						url: 'admin/eliminar-admin.php',
+						type: 'GET',
+						data: {
+							idAdmin: idAdmin
+						},
+						success: function(response) {
+							console.log('Admin eliminado');
+							location.reload();
+						},
+						error: function(error) {
+							console.log(error);
+							alert("Identificador de Admin no proporcionado.");
+						}
+					});
+				}
+			});
+		}
+
+		function modificar(idAdmin) {
+			$.ajax({
+				url: 'admin/consultar-admin.php',
+				type: 'GET',
+				dataType: 'json',
+				success: function(data) {
+					$.each(data, function(i, admin) {
+						if (admin.id == idAdmin) {
+							$('#id').val(admin.id);
+							$('#nombreM').val(admin.nombre);
+							$('#celularM').val(admin.celular);
+							$('#tipoDocumentoM').val(admin.tipoDocumento);
+							$('#documentoM').val(admin.documento);
+							$('#userNameM').val(admin.userName);
+							$('#contrasena1M').val(admin.contrasena);
+							$('#contrasena2M').val(admin.contrasena);
+						}
+					});
+				},
+				error: function(error) {
+					console.log(error);
+				}
+			});
+		}
+
+		function guardarModificacion() {
+			var idAdmin = document.getElementById('id').value || "0";
+			var nombre = document.getElementById('nombreM').value || "Indefinido";
+			var celular = document.getElementById('celularM').value || "Indefinido";
+			var tipoDocumento = document.getElementById('tipoDocumentoM').value || "Indefinido";
+			var documento = document.getElementById('documentoM').value || "Indefinido";
+			var userName = document.getElementById('userNameM').value || "Indefinido";
+			var contrasena1 = document.getElementById('contrasena1M').value || "Indefinido";
+			var contrasena2 = document.getElementById('contrasena2M').value || "Indefinido";
+
+			if(contrasena1 == contrasena2) {
+				var contrasena = contrasena1;
+
+				var formData = new FormData();
+				formData.append('id', idAdmin);
+				formData.append('nombre', nombre);
+				formData.append('celular', celular);
+				formData.append('tipoDocumento', tipoDocumento);
+				formData.append('documento', documento);
+				formData.append('userName', userName);
+				formData.append('contrasena', contrasena);
+
+				var xhr = new XMLHttpRequest();
+				xhr.open('POST', 'admin/modificar-admin.php', true);
+				xhr.onload = function() {
+					if (xhr.status === 200) {
+						console.log(xhr.responseText);
+						location.reload();
+					} else {
+						console.log("Error al procesar la solicitud");
+						console.error(xhr.statusText);
+					}
+				};
+				xhr.onerror = function() {
+					console.log("Error de red");
+					console.error(xhr.statusText);
+				};
+				xhr.send(formData);
+
+			} else {
+				alert("Las contraseñas no coinciden.");
+			}
+		}
+
+		// Obtener referencias a los elementos de búsqueda y filtro
+		const searchInput = document.getElementById('searchInput');
+
+		// Agregar eventos de escucha para búsqueda y filtro
+		searchInput.addEventListener('input', handleSearchFilter);
+
+		function handleSearchFilter() {
+			const searchText = searchInput.value.toLowerCase();
+			const rows = document.querySelectorAll('#tabla-admin-body tr');
+
+			rows.forEach((row) => {
+				const id = row.querySelector('td:nth-child(1)').innerText.toLowerCase();
+				const nombre = row.querySelector('td:nth-child(2)').innerText.toLowerCase();
+				const celular = row.querySelector('td:nth-child(3)').innerText.toLowerCase();
+				const tipoDocumento= row.querySelector('td:nth-child(4)').innerText.toLowerCase();
+				const documento= row.querySelector('td:nth-child(5)').innerText.toLowerCase();
+				const usuario= row.querySelector('td:nth-child(6)').innerText.toLowerCase();
+
+				if (
+					(id.includes(searchText) || nombre.includes(searchText) || celular.includes(searchText) ||
+					tipoDocumento.includes(searchText) || documento.includes(searchText) || usuario.includes(searchText)) 
+				) {
+					row.style.display = '';
+				} else {
+					row.style.display = 'none';
+				}
+			});
+		}
+
+	</script>
+
+</body>
+</html>

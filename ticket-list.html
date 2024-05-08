@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<title>Lista tickets</title>
+
+	<!-- Normalize V8.0.1 -->
+	<link rel="stylesheet" href="./css/normalize.css">
+
+	<!-- Bootstrap V4.3 -->
+	<link rel="stylesheet" href="./css/bootstrap.min.css">
+
+	<!-- Bootstrap Material Design V4.0 -->
+	<link rel="stylesheet" href="./css/bootstrap-material-design.min.css">
+
+	<!-- Font Awesome V5.9.0 -->
+	<link rel="stylesheet" href="./css/all.css">
+
+	<!-- Sweet Alerts V8.13.0 CSS file -->
+	<link rel="stylesheet" href="./css/sweetalert2.min.css">
+
+	<!-- Sweet Alert V8.13.0 JS file-->
+	<script src="./js/sweetalert2.min.js" ></script>
+
+	<!-- jQuery Custom Content Scroller V3.1.5 -->
+	<link rel="stylesheet" href="./css/jquery.mCustomScrollbar.css">
+	
+	<!-- General Styles -->
+	<link rel="stylesheet" href="./css/style.css">
+
+	<style>
+		
+		.user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+        .user-avatar img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+
+        /* Estilo para ocultar la subfila por defecto */
+        .subfila {
+            display: none;
+            text-align: center;
+        }
+
+        /* Estilo para resaltar texto en verde */
+        .activo {
+            color: white;
+            background-color: rgb(28, 85, 17);
+            border-radius: 10px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .vencido {
+            color: white;
+            background-color: rgb(108, 12, 12);
+            border-radius: 10px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .indefinido {
+            color: white;
+            background-color: rgb(114, 109, 10);
+            border-radius: 10px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Estilos para la ventana flotante */
+        .ventana-flotante {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #06030D;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+            z-index: 9999;
+        }
+
+        .ventana-flotante-agregar {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #253556;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+            z-index: 9999;
+        }
+
+        .id {
+            display: none;
+        }
+
+        #divMembrasiaAsistencia {
+            display: none;
+        }
+
+        .table-busqueda {
+            background-color: rgb(92, 22, 32);
+            /* Cambia #ff0000 por el color deseado */
+            border-radius: 10px;
+            /* Aplica bordes redondos */
+        }
+
+        .custom-table-responsive {
+            max-height: 100px;
+            /* Ajusta la altura según tus necesidades */
+        }
+
+        .custom-input {
+            height: 30px;
+            width: 40%;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: flex-end;
+            justify-content: flex-start;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            padding: 5px;
+            height: 40px;
+            /* Ajusta la altura deseada */
+        }
+
+        .search-bar input {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 5px;
+            height: 30px;
+            margin-top: auto;
+            /* Empujar el input hacia abajo */
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 40px;
+            height: 25px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: .4s;
+            transition: .4s;
+            border-radius: 17px;
+            /* Ajusta el valor según tus preferencias */
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+            border-radius: 50%;
+            /* Ajusta el valor según tus preferencias */
+        }
+
+        input:checked+.slider {
+            background-color: #D51944;
+        }
+
+        input:focus+.slider {
+            box-shadow: 0 0 1px #D51944;
+        }
+
+        input:checked+.slider:before {
+            -webkit-transform: translateX(26px);
+            -ms-transform: translateX(26px);
+            transform: translateX(16px);
+        }
+
+        .slider.round {
+            border-radius: 34px;
+        }
+
+        .slider.round:before {
+            border-radius: 50%;
+        }
+
+        .estilo-personalizado {
+            background-color: #ffffff;
+            color: #000000;
+        }
+
+        .search-bar-personalizado {
+            display: flex;
+            align-items: flex-end;
+            justify-content: flex-start;
+            border: 1px solid #000000;
+            border-radius: 20px;
+            padding: 5px;
+            height: 40px;
+            /* Ajusta la altura deseada */
+        }
+
+        .letras-negras {
+            color: #000000;
+        }
+
+        .letras-blancas {
+            color: #ffffff;
+        }
+
+        /*  Page content */
+        .navbar-info-pers {
+            height: 50px;
+            border-bottom: 1px solid rgba(250, 30, 78, .3);
+            text-align: right;
+            padding-right: 10px;
+        }
+
+        .navbar-info-pers a {
+            color: var(--form-color);
+            height: 50px;
+            min-width: 40px;
+            text-align: center;
+            line-height: 50px;
+            display: inline-block;
+            transition: all .2s ease-out;
+            user-select: none;
+        }
+
+        .navbar-info-pers a:hover {
+            color: #D51944;
+            background-image: radial-gradient(circle, rgba(250, 30, 78, .1), transparent 80%);
+        }
+
+        .navbar-info-pers a:active,
+        .navbar-info-pers a:focus {
+            outline: none;
+        }
+
+        /*----------  Page nav tabs  ----------*/
+        .page-nav-tabs-pers {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+
+        .page-nav-tabs-pers li,
+        .page-nav-tabs-pers li a {
+            height: 40px;
+            line-height: 40px;
+        }
+
+        .page-nav-tabs-pers li {
+            margin: 5px;
+        }
+
+        .page-nav-tabs-pers li a {
+            color: #004f45;
+            font-size: 20px;
+            min-width: 200px;
+            width: auto;
+            display: block;
+            text-align: center;
+            user-select: none;
+            transition: all .2s ease-in-out;
+        }
+
+        .page-nav-tabs-pers li a.active {
+            color: #D51944;
+            cursor: none;
+            pointer-events: none;
+        }
+
+        .page-nav-tabs-pers li a:hover {
+            text-decoration: none;
+            color: #D51944;
+            background-image: linear-gradient(to right, transparent, rgba(250, 30, 78, .1) 50%, transparent);
+        }
+
+        .table-dark-pers,
+        .table {
+            background-color: transparent;
+        }
+
+        .table-dark-pers {
+            border: 1px solid #D51944;
+        }
+
+        .table-dark-pers thead tr {
+            background-color: #D51944;
+        }
+
+        .table-dark-pers td,
+        .table-dark-pers thead th,
+        .table-dark-pers th {
+            border: none;
+        }
+
+        .table-dark-pers tr:hover {
+            color: #D51944;
+            background-image: linear-gradient(to right, transparent, rgba(97, 12, 54, 0.1) 85%, transparent);
+        }
+
+        .inp-form,
+        .inp-form:active,
+        .inp-form:focus {
+            color: #000000;
+        }
+
+        .inp-form-pers,
+        .inp-form-pers:active,
+        .inp-form-pers:focus {
+            color: #000000;
+        }
+
+	</style>
+
+</head>
+<body>
+	
+	<!-- Main container -->
+	<main class="full-box main-container">
+		<!-- Nav lateral -->
+		<section class="full-box nav-lateral">
+			<div class="full-box nav-lateral-bg show-nav-lateral"></div>
+			<div class="full-box nav-lateral-content">
+				<figure class="full-box nav-lateral-avatar">
+					<i class="far fa-times-circle show-nav-lateral"></i>
+					<img src="./assets/avatar/Avatar.png" class="img-fluid" alt="Avatar">
+					<figcaption class="roboto-medium text-center" id="userSession">
+						- <br><small class="roboto-condensed-light">-</small>
+					</figcaption>
+				</figure>
+				<div class="full-box nav-lateral-bar"></div>
+				<nav class="full-box nav-lateral-menu">
+					<ul>
+						<li>
+							<a href="home.html"><i class="fab fa-dashcube fa-fw"></i> &nbsp; Dashboard</a>
+						</li>
+
+						<li>
+							<a href="emple-list.html"><i class="fas fa-users fa-fw"></i> &nbsp; Lista de Empleados</a>
+						</li>
+
+						<li>
+							<a href="cars-list.html"><i class="fas fa-car fa-fw"></i> &nbsp; Lista de Vehiculos</a>
+						</li>
+
+						<li>
+							<a href="admin-list.html"><i class="fas fa-user-secret fa-fw"></i> &nbsp; Administradores</a>
+						</li>
+
+						<li>
+							<a href="ticket-list.html"><i class="fas fa-ticket-alt fa-fw"></i> &nbsp; Tickets</a>
+						</li>
+
+                        <li>
+							<a href="tarifa-list.html"><i class="fas fa-comment-dollar fa-fw"></i> &nbsp; Tarifas</a>
+						</li>
+					</ul>
+				</nav>
+			</div>
+		</section>
+
+		<!-- Page content -->
+		<section class="full-box page-content">
+			<nav class="full-box navbar-info">
+				<a href="#" class="float-left show-nav-lateral">
+					<i class="fas fa-exchange-alt"></i>
+				</a>
+				<!-- <a href="user-update.html">
+					<i class="fas fa-user-cog"></i>
+				</a> -->
+				<a href="#" class="btn-exit-system">
+					<i class="fas fa-power-off"></i>
+				</a>
+			</nav>
+
+			<!-- Page header -->
+			<div class="full-box page-header">
+				<h3 class="text-left">
+					<i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE TICKETS
+				</h3>
+				<p class="text-justify">
+					¡Descubre la sección de Tickets de Parqueadero! Aquí, podrás acceder a la lista completa de tickets de 
+                    estacionamiento, junto con todos sus detalles. Además, te brindamos la conveniencia de volver a imprimir 
+                    cualquier registro de ticket en cualquier momento que lo desees. Nuestra plataforma está diseñada para que 
+                    tengas un acceso fácil y rápido a la información esencial de tus transacciones de estacionamiento. 
+                    ¡Simplifica tu experiencia de gestión de tickets de parqueadero con nosotros!
+				</p>
+			</div>
+			
+			<div class="container-fluid">
+				<ul class="full-box list-unstyled page-nav-tabs">
+					<li>
+						<a class="active" href="user-list.html"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE TICKETS</a>
+					</li>
+				</ul>	
+			</div>
+			
+			<!-- Content -->
+			<div class="container-fluid">
+				<!-- Barra de busqueda -->
+				<div class="form-group search-bar" id="buscador">
+					<div class="input-group" style="width: 60%">
+						<div class="input-group-prepend" style="margin-right: 10px;">
+							<span class="input-group-text"><i class="fas fa-search"></i></span>
+						</div>
+						<input type="text" class="form-control custom-input inp-form" id="searchInput"
+							placeholder="Buscar">
+					</div>
+					<div class="input-group-prepend" style="margin-right: 10px;">
+						<span class="input-group-text"><i class="fas fa-filter"></i></span>
+					</div>
+					<select class="form-control custom-input inp-form" id="filterInputTar">
+					</select>
+				</div>
+				<div class="table-responsive">
+					<table class="table table-dark table-sm">
+						<thead>
+							<tr class="text-center roboto-medium">
+								<th>#</th>
+                                <th>PLACA</th>
+                                <th>TIPO</th>
+								<th>EMPLEADO</th>
+								<th>DOCUMENTO</th>
+								<th>ENTRADA</th>
+								<th>SALIDA</th>
+                                <th>TARIFA</th>
+                                <th>TOTAL</th>
+                                <th>ACCIONES</th>
+							</tr>
+						</thead>
+						<tbody id="tabla-ticket-body">
+						</tbody>
+					</table>
+				</div>
+				<nav aria-label="Page navigation example">
+					<ul class="pagination justify-content-center">
+						<li class="page-item disabled">
+							<a class="page-link" href="#" tabindex="-1">Previous</a>
+						</li>
+						<li class="page-item"><a class="page-link" href="#">1</a></li>
+						<li class="page-item"><a class="page-link" href="#">2</a></li>
+						<li class="page-item"><a class="page-link" href="#">3</a></li>
+						<li class="page-item">
+							<a class="page-link" href="#">Next</a>
+						</li>
+					</ul>
+				</nav>
+			</div>
+
+		</section>
+	</main>
+	
+	<!--=============================================
+	=            Include JavaScript files           =
+	==============================================-->
+	<!-- jQuery V3.4.1 -->
+	<script src="./js/jquery-3.4.1.min.js" ></script>
+
+	<!-- popper -->
+	<script src="./js/popper.min.js" ></script>
+
+	<!-- Bootstrap V4.3 -->
+	<script src="./js/bootstrap.min.js" ></script>
+
+	<!-- jQuery Custom Content Scroller V3.1.5 -->
+	<script src="./js/jquery.mCustomScrollbar.concat.min.js" ></script>
+
+	<!-- Bootstrap Material Design V4.0 -->
+	<script src="./js/bootstrap-material-design.min.js" ></script>
+	<script>$(document).ready(function() { $('body').bootstrapMaterialDesign();
+        llenarTabla();
+        llenarSelectTarifas();
+
+         // Realizar una petición AJAX al servidor para obtener los datos del usuario
+		$.ajax({
+                url: 'sessionStart.php',
+                type: 'GET',
+                dataType: 'json',
+                success: function(response) {
+                    // Actualizar los elementos HTML con los datos del usuario
+                    $('.nav-lateral-avatar figcaption').html(response.userName +
+                        '<br><small class="roboto-condensed-light">' + response.nombre + '</small>');
+                   
+                },
+                error: function(xhr, status, error) {
+                    console.log(xhr.responseText);
+                    // Manejar el error de la petición AJAX
+                    alert('Error al obtener los datos del usuario.');
+                    window.location.href = 'index.html';
+                }
+            });
+    });
+    </script>
+
+	<script src="./js/main.js" ></script>
+
+	<script>
+
+		function llenarTabla() {
+            $.ajax({
+                url: 'ticket/consultar-ticket.php', // Asegúrate de utilizar la URL correcta
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    var tablaTicket = '';
+                    $.each(data, function(i, ticket) {
+                        tablaTicket += '<tr class="text-center">';
+                        tablaTicket += '<td>' + ticket.id + '</td>';
+                        tablaTicket += '<td>' + ticket.placa + '</td>';
+                        tablaTicket += '<td>' + ticket.tipoVehiculo + '</td>';
+                        tablaTicket += '<td>' + ticket.empleado + '</td>';
+                        tablaTicket += '<td>' + ticket.documento + '</td>';
+                        tablaTicket += '<td>' + ticket.fechaEntrada + '</td>';
+                        tablaTicket += '<td>' + ticket.fechaSalida + '</td>';
+                        tablaTicket += '<td>' + ticket.tarifa + '</td>';
+                        tablaTicket += '<td>' + ticket.total + '</td>';
+                        tablaTicket += '<td>';
+                        tablaTicket += '<button type="button" class="btn btn-info" onclick="eliminar(' + ticket.id + ')"><i class="fas fa-file-pdf"></i></button>';
+                        tablaTicket += '</td>';
+                        tablaTicket += '</tr>';
+                    });
+                    $('#tabla-ticket-body').html(tablaTicket);
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+        }
+
+        function llenarSelectTarifas() {
+            $.ajax({
+                url: 'tarifa/consultar-tarifa.php', // archivo 'consultar-empleados.php' para manejar la consulta a la base de datos.
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    var selectTarifa = $('#filterInputTar'); // Selecciona el elemento select por su ID.
+
+                    // Limpia el select para eliminar opciones anteriores.
+                    selectTarifa.empty();
+
+                    // Agrega la opción predeterminada.
+                    selectTarifa.append('<option value="" selected>Todas las Tarifas</option>');
+
+                    // Itera a través de los datos recibidos y agrega las opciones al select.
+                    $.each(data, function(i, tarifa) {
+                        selectTarifa.append($('<option>', {
+                            value: tarifa.tipoTarifa,
+                            text: tarifa.tipoTarifa
+                        }));
+                    });
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+        }
+
+        // Obtener referencias a los elementos de búsqueda y filtro
+        const searchInput = document.getElementById('searchInput');
+        const filterInputTar = document.getElementById('filterInputTar');
+
+        // Agregar eventos de escucha para búsqueda y filtro
+        searchInput.addEventListener('input', handleSearchFilter);
+        filterInputTar.addEventListener('change', handleSearchFilter);
+
+        function handleSearchFilter() {
+            const searchText = searchInput.value.toLowerCase();
+            const filterValueTar = filterInputTar.value.toLowerCase();
+            const rows = document.querySelectorAll('#tabla-ticket-body tr');
+
+            rows.forEach((row) => {
+                const id = row.querySelector('td:nth-child(1)').innerText.toLowerCase();
+                const empleado = row.querySelector('td:nth-child(2)').innerText.toLowerCase();
+                const documento = row.querySelector('td:nth-child(3)').innerText.toLowerCase();
+                const tipoVehiculo = row.querySelector('td:nth-child(4)').innerText.toLowerCase();
+                const fecha = row.querySelector('td:nth-child(5)').innerText.toLowerCase();
+                const horaEntrada = row.querySelector('td:nth-child(6)').innerText.toLowerCase();
+                const horaSalida = row.querySelector('td:nth-child(7)').innerText.toLowerCase();
+                const tarifa = row.querySelector('td:nth-child(8)').innerText.toLowerCase();
+                const total = row.querySelector('td:nth-child(9)').innerText.toLowerCase();
+
+                if (
+                    (id.includes(searchText) || empleado.includes(searchText) || documento.includes(searchText) ||
+                    tipoVehiculo.includes(searchText) || fecha.includes(searchText) || horaEntrada.includes(searchText) ||
+                    horaSalida.includes(searchText) || total.includes(searchText)) &&
+                    (filterValueTar === '' || tarifa === filterValueTar)
+                ) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+
+	</script>
+
+</body>
+</html>

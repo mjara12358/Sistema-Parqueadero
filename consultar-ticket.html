@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<title>Consultar Ticket</title>
+
+	<!-- Normalize V8.0.1 -->
+	<link rel="stylesheet" href="./css/normalize.css">
+
+	<!-- Bootstrap V4.3 -->
+	<link rel="stylesheet" href="./css/bootstrap.min.css">
+
+	<!-- Bootstrap Material Design V4.0 -->
+	<link rel="stylesheet" href="./css/bootstrap-material-design.min.css">
+
+	<!-- Font Awesome V5.9.0 -->
+	<link rel="stylesheet" href="./css/all.css">
+
+	<!-- Sweet Alerts V8.13.0 CSS file -->
+	<link rel="stylesheet" href="./css/sweetalert2.min.css">
+
+	<!-- Sweet Alert V8.13.0 JS file -->
+	<script src="./js/sweetalert2.min.js" ></script>
+
+	<!-- jQuery Custom Content Scroller V3.1.5 -->
+	<link rel="stylesheet" href="./css/jquery.mCustomScrollbar.css">
+	
+	<!-- General Styles -->
+	<link rel="stylesheet" href="./css/style.css">
+
+    <style>
+        .id {
+            display: none;
+        }
+    </style>
+
+</head>
+<body>
+
+	<div class="login-container">
+		<div class="login-content">
+			<p class="text-center">
+				<i class="fas fa-ticket-alt fa-5x"></i>
+			</p>
+			<p class="text-center">
+				Ingresa el ID de tu Ticket
+			</p>
+			<form id="consultaForm">
+				<div class="form-group">
+					<label for="UserName" class="bmd-label-floating"><i class="fas fa-ticket-alt fa-fw"></i> &nbsp; Id Ticket</label>
+					<input type="text" class="form-control" id="idTicket" name="idTicket">
+				</div>
+                <a  class="btn-login text-center" id="consultar" onclick="verInfo()">Consultar</a>
+			</form>
+		</div>
+	</div>
+
+     <!-- MODAL INFO -->
+		 <div class="modal fade" id="ModalInfo" tabindex="-1" role="dialog" aria-labelledby="ModalItem" aria-hidden="true">
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<legend><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; Informacion del Ticket</legend>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="container-fluid">
+							<input type="text" pattern="[0-9]{1,20}" class="form-control id" id="idI" maxlength="25">
+							<form action="" autocomplete="off">
+								<fieldset>
+									<div class="container-fluid">
+										<div class="row justify-content-md-center">
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label for="placa" class="label" >Placa</label>
+                                                    <input type="text" pattern="[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ ]{1,20}" class="form-control" name="placaI" id="placaI" maxlength="40" readonly>
+                                                </div>
+                                            </div>
+											<div class="col-12 col-md-6">
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label for="tipoVehiculoI" class="label">Tipo Vehiculo</label>
+                                                        <input type="text" pattern="[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ ]{1,20}" class="form-control" name="tipoVehiculoI" id="tipoVehiculoI" maxlength="40" readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label for="empleadoI" class="label">Empleado</label>
+                                                        <input type="text" pattern="[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ ]{1,20}" class="form-control" name="empleadoI" id="empleadoI" maxlength="40" readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label for="documentoI" class="label">Documento</label>
+                                                        <input type="text" pattern="[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ ]{1,20}" class="form-control" name="documentoI" id="documentoI" maxlength="40" readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label for="idTarifa" class="label">Tarifa</label>
+                                                        <input type="text" pattern="[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ ]{1,20}" class="form-control" name="idTarifaI" id="idTarifaI" maxlength="40" readonly>
+                                                    </div>
+                                                </div>
+											</div>
+											<div class="col-12 col-md-6">
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label for="entradaI" class="label">Entrada</label>
+                                                        <input type="text" pattern="[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ ]{1,20}" class="form-control" name="entradaI" id="entradaI" maxlength="40" readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label for="salidaI" class="label">Salida</label>
+                                                        <input type="text" pattern="[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ ]{1,20}" class="form-control" name="salidaI" id="salidaI" maxlength="40" readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label for="tiempo" class="label">Tiempo</label>
+                                                        <input type="text" pattern="[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ ]{1,20}" class="form-control" name="tiempoI" id="tiempoI" maxlength="40" readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label for="total" class="label">Total</label>
+                                                        <input type="text" pattern="[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ ]{1,20}" class="form-control" name="totalI" id="totalI" maxlength="40" readonly>
+                                                    </div>
+                                                </div>
+											</div>
+										</div>
+									</div>
+								</fieldset>
+								<p class="text-center" style="margin-top: 40px;">
+									<button type="reset" class="btn btn-raised btn-secondary btn-sm" data-dismiss="modal"><i class="fas fa-arrow-left"></i> &nbsp; Salir</button>
+								</p>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	
+	<!--=============================================
+	=            Include JavaScript files           =
+	==============================================-->
+	<!-- jQuery V3.4.1 -->
+	<script src="./js/jquery-3.4.1.min.js" ></script>
+
+	<!-- popper -->
+	<script src="./js/popper.min.js" ></script>
+
+	<!-- Bootstrap V4.3 -->
+	<script src="./js/bootstrap.min.js" ></script>
+
+	<!-- jQuery Custom Content Scroller V3.1.5 -->
+	<script src="./js/jquery.mCustomScrollbar.concat.min.js" ></script>
+
+	<!-- Bootstrap Material Design V4.0 -->
+	<script src="./js/bootstrap-material-design.min.js" ></script>
+	<script>$(document).ready(function() { $('body').bootstrapMaterialDesign();
+        
+    });
+    </script>
+
+	<script src="./js/main.js" ></script>
+
+	<script>
+            
+       function verInfo() {
+            var idTicket = document.getElementById('idTicket').value || "Indefinido";
+
+			$.ajax({
+                url: 'ticket/consultar-ticket.php',
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    $.each(data, function(i, ticket) {
+                        if (ticket.id == idTicket) {
+
+                            $('#ModalInfo').modal('show');
+							$('#idI').val(ticket.id);
+                            $('#placaI').val(ticket.placa);
+                            $('#tipoVehiculoI').val(ticket.tipoVehiculo);
+                            $('#empleadoI').val(ticket.empleado);
+                            $('#documentoI').val(ticket.documento);
+							$('#fechaEntradaI').val(ticket.fechaEntrada);
+                            $('#idTarifaI').val(ticket.tarifa);
+                            $('#entradaI').val(ticket.fechaEntrada);
+                            $('#salidaI').val(ticket.fechaSalida);
+
+                            var fechaEntrada = new Date(ticket.fechaEntrada);
+                            
+                            var fechaSalida = new Date(ticket.fechaSalida);
+
+                            // Calcular la diferencia de tiempo en milisegundos
+                            var tiempoTranscurrido = fechaSalida - fechaEntrada;
+
+                            // Convertir la diferencia de tiempo a horas
+                            var horasTranscurridas = tiempoTranscurrido / (1000 * 60 * 60);
+                            $('#tiempoI').val(horasTranscurridas.toFixed(2) + " Horas");
+
+                            // Calcular el total utilizando la tarifa por hora
+                            var total = ticket.total;
+                            $('#totalI').val(total + " Pesos");
+
+                            $('#idTicket').val("");
+                        } 
+                    });
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+		}
+        
+	</script>
+</body>
+</html>

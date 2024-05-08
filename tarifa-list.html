@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>Lista de tarifas</title>
+
+    <!-- Normalize V8.0.1 -->
+    <link rel="stylesheet" href="./css/normalize.css">
+
+    <!-- Bootstrap V4.3 -->
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+
+    <!-- Bootstrap Material Design V4.0 -->
+    <link rel="stylesheet" href="./css/bootstrap-material-design.min.css">
+
+    <!-- Font Awesome V5.9.0 -->
+    <link rel="stylesheet" href="./css/all.css">
+
+    <!-- Sweet Alerts V8.13.0 CSS file -->
+    <link rel="stylesheet" href="./css/sweetalert2.min.css">
+
+    <!-- Sweet Alert V8.13.0 JS file-->
+    <script src="./js/sweetalert2.min.js"></script>
+
+    <!-- jQuery Custom Content Scroller V3.1.5 -->
+    <link rel="stylesheet" href="./css/jquery.mCustomScrollbar.css">
+
+    <!-- General Styles -->
+    <link rel="stylesheet" href="./css/style.css">
+
+    <style>
+		
+		.user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+        .user-avatar img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+
+        /* Estilo para ocultar la subfila por defecto */
+        .subfila {
+            display: none;
+            text-align: center;
+        }
+
+        /* Estilo para resaltar texto en verde */
+        .activo {
+            color: white;
+            background-color: rgb(28, 85, 17);
+            border-radius: 10px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .vencido {
+            color: white;
+            background-color: rgb(108, 12, 12);
+            border-radius: 10px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .indefinido {
+            color: white;
+            background-color: rgb(114, 109, 10);
+            border-radius: 10px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Estilos para la ventana flotante */
+        .ventana-flotante {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #06030D;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+            z-index: 9999;
+        }
+
+        .ventana-flotante-agregar {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #253556;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+            z-index: 9999;
+        }
+
+        .id {
+            display: none;
+        }
+
+        #divMembrasiaAsistencia {
+            display: none;
+        }
+
+        .table-busqueda {
+            background-color: rgb(92, 22, 32);
+            /* Cambia #ff0000 por el color deseado */
+            border-radius: 10px;
+            /* Aplica bordes redondos */
+        }
+
+        .custom-table-responsive {
+            max-height: 100px;
+            /* Ajusta la altura según tus necesidades */
+        }
+
+        .custom-input {
+            height: 30px;
+            width: 20%;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: flex-end;
+            justify-content: flex-start;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            padding: 5px;
+            height: 40px;
+            /* Ajusta la altura deseada */
+        }
+
+        .search-bar input {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 5px;
+            height: 30px;
+            margin-top: auto;
+            /* Empujar el input hacia abajo */
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 40px;
+            height: 25px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: .4s;
+            transition: .4s;
+            border-radius: 17px;
+            /* Ajusta el valor según tus preferencias */
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+            border-radius: 50%;
+            /* Ajusta el valor según tus preferencias */
+        }
+
+        input:checked+.slider {
+            background-color: #D51944;
+        }
+
+        input:focus+.slider {
+            box-shadow: 0 0 1px #D51944;
+        }
+
+        input:checked+.slider:before {
+            -webkit-transform: translateX(26px);
+            -ms-transform: translateX(26px);
+            transform: translateX(16px);
+        }
+
+        .slider.round {
+            border-radius: 34px;
+        }
+
+        .slider.round:before {
+            border-radius: 50%;
+        }
+
+        .estilo-personalizado {
+            background-color: #ffffff;
+            color: #000000;
+        }
+
+        .search-bar-personalizado {
+            display: flex;
+            align-items: flex-end;
+            justify-content: flex-start;
+            border: 1px solid #000000;
+            border-radius: 20px;
+            padding: 5px;
+            height: 40px;
+            /* Ajusta la altura deseada */
+        }
+
+        .letras-negras {
+            color: #000000;
+        }
+
+        .letras-blancas {
+            color: #ffffff;
+        }
+
+        /*  Page content */
+        .navbar-info-pers {
+            height: 50px;
+            border-bottom: 1px solid rgba(250, 30, 78, .3);
+            text-align: right;
+            padding-right: 10px;
+        }
+
+        .navbar-info-pers a {
+            color: var(--form-color);
+            height: 50px;
+            min-width: 40px;
+            text-align: center;
+            line-height: 50px;
+            display: inline-block;
+            transition: all .2s ease-out;
+            user-select: none;
+        }
+
+        .navbar-info-pers a:hover {
+            color: #D51944;
+            background-image: radial-gradient(circle, rgba(250, 30, 78, .1), transparent 80%);
+        }
+
+        .navbar-info-pers a:active,
+        .navbar-info-pers a:focus {
+            outline: none;
+        }
+
+        /*----------  Page nav tabs  ----------*/
+        .page-nav-tabs-pers {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+
+        .page-nav-tabs-pers li,
+        .page-nav-tabs-pers li a {
+            height: 40px;
+            line-height: 40px;
+        }
+
+        .page-nav-tabs-pers li {
+            margin: 5px;
+        }
+
+        .page-nav-tabs-pers li a {
+            color: #004f45;
+            font-size: 20px;
+            min-width: 200px;
+            width: auto;
+            display: block;
+            text-align: center;
+            user-select: none;
+            transition: all .2s ease-in-out;
+        }
+
+        .page-nav-tabs-pers li a.active {
+            color: #D51944;
+            cursor: none;
+            pointer-events: none;
+        }
+
+        .page-nav-tabs-pers li a:hover {
+            text-decoration: none;
+            color: #D51944;
+            background-image: linear-gradient(to right, transparent, rgba(250, 30, 78, .1) 50%, transparent);
+        }
+
+        .table-dark-pers,
+        .table {
+            background-color: transparent;
+        }
+
+        .table-dark-pers {
+            border: 1px solid #D51944;
+        }
+
+        .table-dark-pers thead tr {
+            background-color: #D51944;
+        }
+
+        .table-dark-pers td,
+        .table-dark-pers thead th,
+        .table-dark-pers th {
+            border: none;
+        }
+
+        .table-dark-pers tr:hover {
+            color: #D51944;
+            background-image: linear-gradient(to right, transparent, rgba(97, 12, 54, 0.1) 85%, transparent);
+        }
+
+        .inp-form,
+        .inp-form:active,
+        .inp-form:focus {
+            color: #000000;
+        }
+
+        .inp-form-pers,
+        .inp-form-pers:active,
+        .inp-form-pers:focus {
+            color: #000000;
+        }
+
+	</style>
+
+</head>
+
+
+<body>
+    <!-- Main container -->
+    <main class="full-box main-container">
+        <!-- Nav lateral -->
+        <section class="full-box nav-lateral">
+            <div class="full-box nav-lateral-bg show-nav-lateral"></div>
+            <div class="full-box nav-lateral-content">
+                <figure class="full-box nav-lateral-avatar">
+                    <i class="far fa-times-circle show-nav-lateral"></i>
+                    <img src="./assets/avatar/Avatar.png" class="img-fluid" alt="Avatar">
+                    <figcaption class="roboto-medium text-center" id="userSession">
+						- <br><small class="roboto-condensed-light">-</small>
+					</figcaption>
+                </figure>
+                <div class="full-box nav-lateral-bar"></div>
+                <nav class="full-box nav-lateral-menu">
+                    <ul>
+                        <li>
+                            <a href="home.html"><i class="fab fa-dashcube fa-fw"></i> &nbsp; Dashboard</a>
+                        </li>
+
+                        <li>
+							<a href="emple-list.html"><i class="fas fa-users fa-fw"></i> &nbsp; Lista de Empleados</a>
+						</li>
+
+                        <li>
+                            <a href="cars-list.html"><i class="fas fa-car fa-fw"></i> &nbsp; Lista de Vehiculos</a>
+                        </li>
+                        <li>
+							<a href="admin-list.html"><i class="fas fa-user-secret fa-fw"></i> &nbsp; Administradores</a>
+						</li>
+
+                        <li>
+							<a href="ticket-list.html"><i class="fas fa-ticket-alt fa-fw"></i> &nbsp; Tickets</a>
+						</li>
+
+                        <li>
+							<a href="tarifa-list.html"><i class="fas fa-comment-dollar fa-fw"></i> &nbsp; Tarifas</a>
+						</li>
+                    </ul>
+                </nav>
+            </div>
+        </section>
+        <section class="full-box page-content">
+            <nav class="full-box navbar-info">
+                <a href="#" class="float-left show-nav-lateral">
+                    <i class="fas fa-exchange-alt"></i>
+                </a>
+                <!-- <a href="user-update.html">
+                    <i class="fas fa-user-cog"></i>
+                </a> -->
+                <a href="#" class="btn-exit-system">
+                    <i class="fas fa-power-off"></i>
+                </a>
+            </nav>
+            <!-- Page header -->
+            <div class="full-box page-header">
+                <h3 class="text-left">
+                    <i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE TARIFAS
+                </h3>
+                <p class="text-justify">
+                    Bienvenido a nuestra sección de Tarifas del Parqueadero. Aquí, podrás acceder a una lista detallada de todas 
+                    nuestras tarifas, junto con sus datos específicos. Pero eso no es todo; también te ofrecemos la posibilidad 
+                    de agregar nuevas tarifas, editar las existentes o eliminarlas, todo en un solo lugar. Nuestra prioridad es 
+                    brindarte un control completo y una visión clara de nuestras tarifas de estacionamiento, para que puedas tomar 
+                    decisiones informadas y gestionarlas de manera efectiva. Estamos aquí para que la administración de tarifas sea 
+                    lo más conveniente y eficiente posible para ti.
+                </p>
+            </div>
+            <div class="container-fluid">
+                <ul class="full-box list-unstyled page-nav-tabs">
+                    <li>
+                        <button type="button" id="openModalButton" style="display: none;" data-toggle="modal" data-target="#ModalAgregar"></button>
+						<a href="javascript:void(0);" onclick="document.getElementById('openModalButton').click();">
+							<i class="fas fa-plus fa-fw"></i> &nbsp; AGREGAR TARIFA
+						</a>
+                    </li>
+                    <li>
+                        <a class="active" href="item-list.html"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE TARIFAS</a>
+                    </li>
+                </ul>
+            </div>
+            
+            <!--CONTENT-->
+           <div class="container-fluid">
+            <!-- Barra de busqueda -->
+            <div class="form-group search-bar" id="buscador">
+                <div class="input-group">
+                    <div class="input-group-prepend" style="margin-right: 10px;">
+                        <span class="input-group-text"><i class="fas fa-search"></i></span>
+                    </div>
+                    <input type="text" class="form-control custom-input inp-form" id="searchInput"
+                        placeholder="Buscar">
+                </div>
+            </div>
+				<div class="table-responsive">
+					<table class="table table-dark table-sm">
+						<thead>
+							<tr class="text-center roboto-medium">
+								<th>#</th>
+								<th>TIPO</th>
+                                <th>VALOR/HORA</th>
+								<th>TIPO DE VEHICULO</th>
+								<th>ACCIONES</th>
+							</tr>
+						</thead>
+						<tbody id="tabla-tarifa-body">
+						</tbody>
+					</table>
+				</div>
+				<nav aria-label="Page navigation example">
+					<ul class="pagination justify-content-center">
+						<li class="page-item disabled">
+							<a class="page-link" href="#" tabindex="-1">Previous</a>
+						</li>
+						<li class="page-item"><a class="page-link" href="#">1</a></li>
+						<li class="page-item"><a class="page-link" href="#">2</a></li>
+						<li class="page-item"><a class="page-link" href="#">3</a></li>
+						<li class="page-item">
+							<a class="page-link" href="#">Next</a>
+						</li>
+					</ul>
+				</nav>
+			</div>
+
+            <!-- MODAL AGREGAR -->
+            <div class="modal fade" id="ModalAgregar" tabindex="-1" role="dialog" aria-labelledby="ModalItem" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="ModalItem">Agregar Tarifa</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="container-fluid">
+                                <form action="" class="form-neon" autocomplete="off">
+                                    <fieldset>
+                                        <legend><i class="far fa-address-card"></i> &nbsp; Informacion de la Tarifa</legend>
+                                        <div class="container-fluid">
+                                            <div class="row">
+                                                <div class="col-12 col-md-8">
+                                                    <div class="form-group">
+                                                        <label for="tipoTarifa" class="bmd-label-floating" >Tipo</label>
+                                                        <input type="text" pattern=".{1,200}" class="form-control" name="tipoTarifa" id="tipoTarifa" maxlength="40">
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="valorHora" class="bmd-label-floating" >Valor por Hora</label>
+                                                        <input type="text" pattern="^\d{1,8}(\.\d{1,2})?$" class="form-control" name="valorHora" id="valorHora" maxlength="150">
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label for="tipoVehiculo" class="bmd-label-floating" >Tipo de Vehiculo</label>
+                                                        <input type="text" pattern=".{1,200}" class="form-control" name="tipoVehiculo" id="tipoVehiculo" maxlength="150">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </form>
+                                <p class="text-center" style="margin-top: 40px;">
+                                    <button type="reset" class="btn btn-raised btn-secondary btn-sm" data-dismiss="modal"><i class="fas fa-arrow-left"></i> &nbsp; Cancelar</button>
+                                    &nbsp; &nbsp;
+                                    <button type="submit" class="btn btn-raised btn-info btn-sm" onclick="guardar()"><i class="far fa-save"></i> &nbsp; GUARDAR</button>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+             <!-- MODAL MODIFICAR -->
+             <div class="modal fade" id="ModalModificar" tabindex="-1" role="dialog" aria-labelledby="ModalItem" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="ModalItem">Modificar Tarifa</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="container-fluid">
+                                <input type="text" pattern="[0-9]{1,20}" class="form-control id" id="id" maxlength="25">
+								<form action="" class="form-neon" autocomplete="off">
+                                    <fieldset>
+                                        <legend><i class="far fa-address-card"></i> &nbsp; Informacion de la Tarifa</legend>
+                                        <div class="container-fluid">
+                                            <div class="row">
+                                                <div class="col-12 col-md-8">
+                                                    <div class="form-group">
+                                                        <label for="tipoTarifaM" class="label" >Tipo</label>
+                                                        <input type="text" pattern=".{1,200}" class="form-control" name="tipoTarifaM" id="tipoTarifaM" maxlength="500">
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="valorHoraM" class="label" >Valor por Hora</label>
+                                                        <input type="text" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ#\-0-9 ]{1,150}" class="form-control" name="valorHoraM" id="valorHoraM" maxlength="500">
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label for="tipoVehiculoM" class="label" >Tipo de Vehiculo</label>
+                                                        <input type="text" pattern=".{1,200}" class="form-control" name="tipoVehiculoM" id="tipoVehiculoM" maxlength="500">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </form>
+								<p class="text-center" style="margin-top: 40px;">
+									<button type="reset" class="btn btn-raised btn-secondary btn-sm" data-dismiss="modal"><i class="fas fa-arrow-left"></i> &nbsp; Cancelar</button>
+									&nbsp; &nbsp;
+									<button type="submit" class="btn btn-raised btn-success btn-sm" onclick="guardarModdificacion()"><i class="fas fa-sync-alt"></i> &nbsp; GUARDAR</button>
+								</p>
+							</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+	<!--=============================================
+	=            Include JavaScript files           =
+	==============================================-->
+	<!-- jQuery V3.4.1 -->
+	<script src="./js/jquery-3.4.1.min.js" ></script>
+
+	<!-- popper -->
+	<script src="./js/popper.min.js" ></script>
+
+	<!-- Bootstrap V4.3 -->
+	<script src="./js/bootstrap.min.js" ></script>
+
+	<!-- jQuery Custom Content Scroller V3.1.5 -->
+	<script src="./js/jquery.mCustomScrollbar.concat.min.js" ></script>
+
+	<!-- Bootstrap Material Design V4.0 -->
+	<script src="./js/bootstrap-material-design.min.js" ></script>
+	<script>$(document).ready(function() { $('body').bootstrapMaterialDesign();
+        llenarTabla();
+
+         // Realizar una petición AJAX al servidor para obtener los datos del usuario
+		$.ajax({
+                url: 'sessionStart.php',
+                type: 'GET',
+                dataType: 'json',
+                success: function(response) {
+                    // Actualizar los elementos HTML con los datos del usuario
+                    $('.nav-lateral-avatar figcaption').html(response.userName +
+                        '<br><small class="roboto-condensed-light">' + response.nombre + '</small>');
+                   
+                },
+                error: function(xhr, status, error) {
+                    console.log(xhr.responseText);
+                    // Manejar el error de la petición AJAX
+                    alert('Error al obtener los datos del usuario.');
+                    window.location.href = 'index.html';
+                }
+            });
+    });</script>
+
+	<script src="./js/main.js" ></script>
+
+    <script>
+
+        function llenarTabla() {
+            $.ajax({
+                url: 'tarifa/consultar-tarifa.php', // Asegúrate de que la URL sea correcta
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    var tablaTarifa = '';
+                    $.each(data, function(i, tarifa) {
+                        tablaTarifa += '<tr class="text-center">';
+                        tablaTarifa += '<td>' + tarifa.id + '</td>';
+                        tablaTarifa += '<td>' + tarifa.tipoTarifa + '</td>';
+                        tablaTarifa += '<td>' + tarifa.valorHora + '</td>';
+                        tablaTarifa += '<td>' + tarifa.tipoVehiculo + '</td>';
+                        tablaTarifa += '<td>';
+                        tablaTarifa += '<button type="button" class="btn btn-success" id="editar" data-toggle="modal" data-target="#ModalModificar" onclick="modificar(' + tarifa.id + ')"><i class="fas fa-pencil-alt"></i></button>';
+                        tablaTarifa += '<button type="button" class="btn btn-warning" onclick="eliminar(' + tarifa.id + ')"><i class="far fa-trash-alt"></i></button>';
+                        tablaTarifa += '</td>';
+                        tablaTarifa += '</tr>';
+                    });
+                    $('#tabla-tarifa-body').html(tablaTarifa); // Asegúrate de que el ID de la tabla HTML sea el correcto
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+        }
+
+        function guardar() {
+            // Obtener los valores de los campos de entrada
+            var tipoTarifa = document.getElementById('tipoTarifa').value || "Indefinido";
+            var valorHora = document.getElementById('valorHora').value || "Indefinido";
+            var tipoVehiculo = document.getElementById('tipoVehiculo').value || "Indefinido";
+
+            if (tipoTarifa != "Indefinido" && valorHora != "Indefinido" && tipoVehiculo != "Indefinido") {
+                // Crear un objeto FormData y agregar los valores de los campos de entrada
+                var formData = new FormData();
+                formData.append('tipoTarifa', tipoTarifa);
+                formData.append('valorHora', valorHora);
+                formData.append('tipoVehiculo', tipoVehiculo);
+
+                // Crear una solicitud AJAX
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', 'tarifa/registrar-tarifa.php', true); // Asegúrate de que la URL sea correcta
+                xhr.onload = function() {
+                    if (xhr.status === 200) {
+                        // La solicitud se completó con éxito
+                        console.log(xhr.responseText);
+                        location.reload();
+                    } else {
+                        // Se produjo un error al procesar la solicitud
+                        console.log("Error al procesar la solicitud");
+                        console.error(xhr.statusText);
+                    }
+                };
+                xhr.onerror = function() {
+                    // Se produjo un error de red u otro error al realizar la solicitud
+                    console.log("Error de red");
+                    console.error(xhr.statusText);
+                };
+                xhr.send(formData);
+            } else {
+                alert("Asegurate de llenar todas las casillas.");
+            }
+        }
+
+
+         // Función para eliminar un usuario
+         function eliminar(idTarifa) {
+            Swal.fire({
+                title: 'Seguro de eliminar esta Tarifa !?',
+                text: "Estas seguro de eliminar permanentemente esta Tarifa.",
+                type: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Si, eliminar!',
+                cancelButtonText: 'No, cancelar'
+            }).then((result) => {
+                if (result.value) {
+                    $.ajax({
+                        url: 'tarifa/eliminar-tarifa.php',
+                        type: 'GET',
+                        data: {
+                            idTarifa: idTarifa
+                        },
+                        success: function(response) {
+                            // Lógica después de eliminar el usuario
+                            console.log('Tarifa eliminada');
+                            //alert("El usuario ha sido eliminado exitosamente.");
+                            location.reload(); // Recarga la página
+                        },
+                        error: function(error) {
+                            console.log(error);
+                            alert("Identificador de Tarifa no proporcionado.");
+                        }
+                    });
+                }
+            });
+        }
+
+        // Función para modificar una tarifa
+        function modificar(idTarifa) {
+            $.ajax({
+                url: 'tarifa/consultar-tarifa.php', // Asegúrate de que la URL sea correcta para consultar tarifas
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    $.each(data, function(i, tarifa) {
+                        if (tarifa.id == idTarifa) {
+                            // Llenar los campos del formulario con los datos de la tarifa
+                            $('#id').val(tarifa.id);
+                            $('#tipoTarifaM').val(tarifa.tipoTarifa);
+                            $('#valorHoraM').val(tarifa.valorHora);
+                            $('#tipoVehiculoM').val(tarifa.tipoVehiculo);
+                        }
+                    });
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+        }
+
+        function guardarModdificacion() {
+            // Obtener el idTarifa
+            var idTarifa = document.getElementById('id').value || "0";
+
+            // Obtener los valores de los campos de entrada
+            var tipoTarifa = document.getElementById('tipoTarifaM').value || "Indefinido";
+            var valorHora = document.getElementById('valorHoraM').value || "Indefinido";
+            var tipoVehiculo = document.getElementById('tipoVehiculoM').value || "Indefinido";
+
+            // Crear un objeto FormData y agregar los valores de los campos de entrada
+            var formData = new FormData();
+            formData.append('idTarifa', idTarifa);
+            formData.append('tipoTarifa', tipoTarifa);
+            formData.append('valorHora', valorHora);
+            formData.append('tipoVehiculo', tipoVehiculo);
+
+            // Crear una solicitud AJAX
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'tarifa/modificar-tarifa.php', true);
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    // La solicitud se completó con éxito
+                    console.log(xhr.responseText);
+                    location.reload();
+                } else {
+                    // Se produjo un error al procesar la solicitud
+                    console.log("Error al procesar la solicitud");
+                    console.error(xhr.statusText);
+                }
+            };
+            xhr.onerror = function() {
+                // Se produjo un error de red u otro error al realizar la solicitud
+                console.log("Error de red");
+                console.error(xhr.statusText);
+            };
+            xhr.send(formData);
+        }
+
+        // Obtener referencias a los elementos de búsqueda y filtro
+        const searchInput = document.getElementById('searchInput');
+
+        // Agregar eventos de escucha para búsqueda y filtro
+        searchInput.addEventListener('input', handleSearchFilter);
+
+        function handleSearchFilter() {
+            const searchText = searchInput.value.toLowerCase();
+            const rows = document.querySelectorAll('#tabla-tarifa-body tr');
+
+            rows.forEach((row) => {
+                const id = row.querySelector('td:nth-child(1)').innerText.toLowerCase();
+                const tipo = row.querySelector('td:nth-child(2)').innerText.toLowerCase();
+                const valorHora = row.querySelector('td:nth-child(3)').innerText.toLowerCase();
+                const tipoVehiculo = row.querySelector('td:nth-child(4)').innerText.toLowerCase();
+
+                if (
+                    (id.includes(searchText) || tipo.includes(searchText) || valorHora.includes(searchText) ||
+                    tipoVehiculo.includes(searchText)) 
+                ) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+
+	</script>
+
+</body>
+</html>
